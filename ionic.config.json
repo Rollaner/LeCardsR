@@ -1,0 +1,7 @@
+{
+  "name": "LeCardsR",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
