@@ -10,20 +10,20 @@ const Home: React.FC = () => {
         <IonToolbar>
           <IonTitle size="large">LeCards</IonTitle>
             <IonButtons slot="end">
-            <IonButton>Ajustes</IonButton>
+            <IonButton routerLink="/preferences">Ajustes</IonButton>
             </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
 
         <IonFab vertical="bottom" horizontal="start" slot="fixed">
-          <IonFabButton href="" title="Nuevo Mazo">
+          <IonFabButton routerLink="/ndeck" title="Nuevo Mazo">
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
         </IonFab>
       <IonFab vertical="bottom" horizontal="end" slot="fixed">
-        <IonFabButton href="" title="Nueva carta">
-          <IonIcon icon={add} ></IonIcon>
+        <IonFabButton routerLink="/ncard" href="" title="Nueva carta" >
+        <IonIcon icon={add}></IonIcon>
           </IonFabButton>
         </IonFab>
 

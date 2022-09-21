@@ -1,4 +1,4 @@
-import { IonBackButton,IonList,IonInput, IonButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar} from '@ionic/react';
+import { IonBackButton,IonList,IonInput, IonButton,IonButtons ,IonContent,IonHeader,IonPage,IonTitle,IonToolbar} from '@ionic/react';
 import './Mazo.css';
 const Mazo: React.FC = () => {
     return (
@@ -6,13 +6,15 @@ const Mazo: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle size="large">Nuevo Mazo</IonTitle>
-                    <IonBackButton defaultHref="/Home" />
+                    <IonButtons slot="start">
+                    <IonBackButton/>
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
             <IonList>
-                <IonInput type="text" name="nombremazo" placeholder="Nombre del mazo" v-model="nombre"> </IonInput>
-                <IonButton  type="submit" expand="block">Crear mazo</IonButton>
+                <IonInput required={true} spellCheck={true} autocapitalize="Sentences" type="text" name="nombremazo" placeholder="Nombre del mazo"> </IonInput>
+                <IonButton routerLink='/home' type="submit" expand="block">Crear mazo</IonButton>
             </IonList>
             </IonContent>
         </IonPage>

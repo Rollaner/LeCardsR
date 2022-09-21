@@ -1,4 +1,4 @@
-import { IonBackButton,IonButton,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar} from '@ionic/react';
+import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar} from '@ionic/react';
 import './Carta.css';
 const Carta: React.FC = () => {
     return (
@@ -6,14 +6,16 @@ const Carta: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle size="large">Nueva Carta</IonTitle>
-                    <IonBackButton defaultHref="/Home" />
+                    <IonButtons slot="start">
+                        <IonBackButton/>
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
             <IonList>
-        <IonInput type="text" name="Pregunta" placeholder="Pregunta" v-model="value1"> </IonInput>
-        <IonInput type="text" name="Respuesta" placeholder="Respuesta" v-model="value2"> </IonInput>
-        <IonInput type="text" name="Nombremazo" placeholder="Mazo" v-model="mazo"> </IonInput>
+        <IonInput required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Pregunta" placeholder="Pregunta" > </IonInput>
+        <IonInput required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Respuesta" placeholder="Respuesta" > </IonInput>
+        <IonInput required={true} clearInput={true} autocapitalize="sentences" type="text" name="Nombremazo" placeholder="Mazo" > </IonInput>
         <IonButton type="submit" expand="block"> Crear carta</IonButton>
             </IonList>
             </IonContent>

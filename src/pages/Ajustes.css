@@ -1,0 +1,24 @@
+IonToolBar{
+    display: inline-flex;
+}
+ion-back-button{
+    display: inline-flex;
+    --icon-padding-end: 6px;
+    margin-left: 8px;
+    --border-radius: 15px;
+}
+ion-radio-group{
+    display: inline-flex;
+    padding-left: 10%;
+}
+
+h2{
+    font-size: 17px;
+    display: inline-flex;
+    padding-bottom: 5%;
+}
+
+ion-label{
+    margin-right: 10px;
+    margin-left: 10px;
+}
