@@ -1,44 +1,51 @@
 import { IonContent,IonBackButton,IonHeader,IonPage,IonTitle,IonToolbar, IonButton,IonButtons, IonList, IonLabel, IonItem, IonRadioGroup, IonToggle, IonRadio, IonListHeader} from '@ionic/react';
-import { useState } from 'react';
-import '..theme/Ajustes.css';
+import { useRef, useState } from 'react';
+import '../../src/theme/Ajustes.css';
 const Ajustes: React.FC = () => {
     const [tiempo, setTiempo] = useState("");
     const [activarTiempo, setActivarTiempo] = useState(false);
+    const selectForm = useRef< null | any >(null)
+
     const handleSubmit = (event:any) => {
         event.preventDefault();
-        alert(`The name you entered was: ${tiempo}`)} //reconstruccion del cdigo del repo local, no resetea valores.
+        selectForm.current.submit();
+        alert(`El nombre del mazo es: ${tiempo}`);
+        } //reconstruccion del cdigo del repo local, no resetea valores.
   
-        const activarTiempoLimite = () => {
+    const activarTiempoLimite = (event:any) => {
+          event.preventDefault();
           setActivarTiempo(!activarTiempo);
+          console.log(activarTiempo)
+          alert(`Tiempo Limite es ${activarTiempo}`);
         }
 
     return (
         <IonPage color='dark'>
             <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="dark">
           <IonButtons color="medium" slot="start">
             <IonBackButton/>
           </IonButtons>
-          <IonTitle slot="secondary" size="large">Ajustes</IonTitle>
+          <IonTitle slot="secondary" size="large" color={'primary'}>Ajustes</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-      <form onChange={handleSubmit}>
-      <IonItem>
-            <IonLabel>Activar tiempo limite</IonLabel>
-            <IonToggle color={"primary"} checked={activarTiempo} onIonChange={(e)=> activarTiempoLimite} slot="end"></IonToggle> 
+      <IonContent color={'medium'}>
+      <IonItem color={'medium'}>  
+            <IonLabel color={'light'}>Activar tiempo limite</IonLabel>
+            <IonToggle color={"primary"} checked={activarTiempo} onClickCapture={(e)=> activarTiempoLimite} slot="end"></IonToggle> 
             {/* el setActivarTiempo a !AT es lo que cambia el valor, deberiamos moverlo a otra funcion para permitir cambios al DOM */}
       </IonItem>
-      <IonList inset={true} lines="full">
+      <form onClickCapture={()=>handleSubmit} color='medium'>
+      <IonList inset={true} lines="full" color='medium'>
         <IonListHeader>
           <h2>Tiempo limite</h2>
         </IonListHeader>
-        <IonRadioGroup color={"primary"} value="25s" onIonChange={(e) => setTiempo(e.target.value as string)}>
-            <IonLabel>20 segundos</IonLabel>
-            <IonRadio name="20s" value="20s" slot="start"></IonRadio>
-            <IonLabel>25 segundos</IonLabel>
+        <IonRadioGroup value="25s" onIonChange={(e)=> setTiempo} >
+            <IonLabel color={'light'} >20 segundos</IonLabel>
+            <IonRadio  name="20s" value="20s" slot="start"></IonRadio>
+            <IonLabel color={'light'} >25 segundos</IonLabel>
             <IonRadio name="25s" value="25s" slot="secondary"></IonRadio>
-            <IonLabel>30 segundos</IonLabel>
+            <IonLabel  color={'light'}>30 segundos</IonLabel>
             <IonRadio name="30s" value="30s" slot="end"></IonRadio>
         </IonRadioGroup>
       </IonList>

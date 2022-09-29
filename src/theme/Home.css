@@ -1,0 +1,26 @@
+* { margin: 0; padding: 0; }
+
+ion-title {
+    margin-left: 15px;
+}
+
+ion-list {
+
+    display: inline;
+    color: #808289;
+}
+
+h4{
+    display: flex;
+    margin:auto;
+    position: relative;
+    text-align: center;
+}
+
+ion-item {
+    padding: 1%;
+    display: list-item;
+    --border-width: 0px;
+    --border-color: #fff;
+    --border-radius: 0px;
+}

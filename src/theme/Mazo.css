@@ -1,0 +1,6 @@
+ion-input{
+    --color: black;
+    --placeholder-color: black;
+    font-variant: small-caps;
+    mix-blend-mode: difference;
+}

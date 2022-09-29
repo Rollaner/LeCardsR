@@ -1,21 +1,44 @@
-IonToolBar{
+ion-tool-bar{
     display: inline-flex;
 }
+
+ion-toggle {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+ion-list {
+    display: contents;
+    background-color: #808289;
+    margin: 0; padding: 0;
+}
+
+ion-list-header {
+    margin: 0; padding: 0;
+    display: inline;
+    background: #808289;
+}
+
 ion-back-button{
     display: inline-flex;
     --icon-padding-end: 6px;
-    margin-left: 8px;
+    margin-left: 15px;
     --border-radius: 15px;
 }
 ion-radio-group{
+    margin: 0px;
+    padding-left: 45px;
+    padding-right: 5px;
+    color: #808289;
     display: inline-flex;
-    padding-left: 10%;
 }
 
-h2{
+h2{ 
+    margin-left: 45px;
+    color:aliceblue;
     font-size: 17px;
     display: inline-flex;
-    padding-bottom: 5%;
+    padding-bottom: 15px;
 }
 
 ion-label{

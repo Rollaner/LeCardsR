@@ -1,33 +1,43 @@
-import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar} from '@ionic/react';
+import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar, useIonViewDidLeave} from '@ionic/react';
 import { useState } from 'react';
-import '..theme/Carta.css';
+import '../../src/theme/Carta.css';
 const Carta: React.FC = () => {
-    const [Pregunta, setPregunta] = useState("");
-    const [Respuesta, setRespuesta] = useState("");
-    const [nombreMazo, setNombreMazo] = useState("");
+    const [mazo, DefinirMazo] = useState("");
+    const [pregunta, DefinirPregunta] = useState("");
+    const [respuesta, DefinirRespuesta] = useState("");
+    
+    useIonViewDidLeave(() =>{
+        DefinirPregunta("Placeholder")
+        DefinirMazo("Placeholder")
+        DefinirRespuesta("Placeholder")
+    });
+
     const handleSubmit = (event:any) => {
         event.preventDefault();
-        alert(`The name you entered was: ${nombreMazo}`)}
+        console.log(pregunta, respuesta)
+        alert(`La pregunta es ${pregunta}, La respuesta es ${respuesta} y el mazo es ${mazo}`)
+        event.target.reset();
+      }
     
     return (
         <IonPage color='dark'>
             <IonHeader>
                 <IonToolbar color="dark">
-                    <IonTitle size="large">Nueva Carta</IonTitle>
+                    <IonTitle size="large" color={'primary'}>Nueva Carta</IonTitle>
                     <IonButtons color='medium' slot="start">
                         <IonBackButton/>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent color={'medium'}>
                 <form onSubmit={handleSubmit}>
             <IonList>
         <IonInput required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Pregunta" placeholder="Pregunta" 
-        onIonChange={(e) => setPregunta(e.target.value as string)}> </IonInput>
+        onIonChange={(e) => DefinirPregunta(e.target.value as string)}> </IonInput>
         <IonInput required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Respuesta" placeholder="Respuesta" 
-        onIonChange={(e) => setRespuesta(e.target.value as string)}> </IonInput>
+        onIonChange={(e) => DefinirRespuesta(e.target.value as string)}> </IonInput>
         <IonInput required={true} clearInput={true} autocapitalize="sentences" type="text" name="Nombremazo" placeholder="Mazo" 
-        onIonChange={(e) => setNombreMazo(e.target.value as string)}> </IonInput>
+        onIonChange={(e) => DefinirMazo(e.target.value as string)}> </IonInput>
         <IonButton color={"primary"} type="submit" expand="block"> Crear carta</IonButton>
             </IonList>
             </form>

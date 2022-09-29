@@ -1,6 +1,6 @@
 import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonGrid,IonCard,IonButton,IonCol,IonCardContent,IonCardHeader,IonCardSubtitle,IonCardTitle} from '@ionic/react';
 import { useState } from 'react';
-import '..theme/Repaso.css';
+import '../../src/theme/Repaso.css';
 const Repaso: React.FC = () => {
     const [dificultad, setDificultad] = useState(0);
     const handleSubmit = (event:any) => {

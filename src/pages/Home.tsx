@@ -1,6 +1,6 @@
 import { add } from "ionicons/icons";
 import { IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonList,IonItem,IonFabButton,IonFab,IonIcon,IonButtons,IonButton } from '@ionic/react';
-import './Home.css';
+import '../../src/theme/Home.css';
 
 
 const Home: React.FC = () => {
@@ -8,13 +8,13 @@ const Home: React.FC = () => {
     <IonPage color="dark">
       <IonHeader>
         <IonToolbar color="dark">
-          <IonTitle size="large">LeCards</IonTitle>
+          <IonTitle size="large" color={'primary'}>LeCards</IonTitle>
             <IonButtons slot="end">
             <IonButton color={"primary"} routerLink="/preferences">Ajustes</IonButton>
             </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent fullscreen color={'medium'}>
 
         <IonFab vertical="bottom" horizontal="start" slot="fixed">
           <IonFabButton color={"primary"} routerLink="/ndeck" title="Nuevo Mazo">
@@ -23,13 +23,13 @@ const Home: React.FC = () => {
         </IonFab>
       <IonFab vertical="bottom" horizontal="end" slot="fixed">
         <IonFabButton routerLink="/ncard" href="" title="Nueva carta" >
-        <IonIcon color={"primary"} icon={add}></IonIcon>
+        <IonIcon icon={add}></IonIcon>
           </IonFabButton>
         </IonFab>
 
-        <IonList>
-        <IonItem>
-
+        <IonList inset={false}>
+        <IonItem color={'primary'} lines='inset' button={true}>
+          <h4>Mazo Placeholder</h4>
         </IonItem>
         </IonList>
 
