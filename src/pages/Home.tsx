@@ -1,6 +1,8 @@
 import { add } from "ionicons/icons";
 import { IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonList,IonItem,IonFabButton,IonFab,IonIcon,IonButtons,IonButton } from '@ionic/react';
 import '../../src/theme/Home.css';
+import '../../src/components/MazoComponent.tsx'
+import MazoComponent from "../components/MazoComponent";
 
 
 const Home: React.FC = () => {
@@ -29,7 +31,7 @@ const Home: React.FC = () => {
 
         <IonList inset={false}>
         <IonItem color={'primary'} lines='inset' button={true}>
-          <h4>Mazo Placeholder</h4>
+          <MazoComponent mazo={"placeholder"}></MazoComponent>
         </IonItem>
         </IonList>
 

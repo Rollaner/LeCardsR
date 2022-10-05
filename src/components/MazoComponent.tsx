@@ -1,18 +1,19 @@
-import { IonButton,IonButtons, IonContent,IonPage, IonCard, IonCardContent} from '@ionic/react';
+
 import './MazoComponent.css';
-const CartaComponent: React.FC = () => {
+
+
+const MazoComponent: React.FC<{mazo: string}> = ({ mazo }) => {
+    
     return(
-        <div className='CartaComponent'>
-            <IonCard>
-             <IonCardContent>
+
+        <div className='MazoComponent'>
+            
                 {/* Tenemos que definir como se veran los mazos dentro de la lista de mazos (Home) */}
-                <p>Cartas!</p>
-                <p>Y contenido!</p>
-            </IonCardContent>
-            </IonCard>
+               <h4>{mazo}</h4>
+            
         </div>
     );
 };
 
 
-export default CartaComponent;
+export default MazoComponent;

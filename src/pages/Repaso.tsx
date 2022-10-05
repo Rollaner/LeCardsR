@@ -19,13 +19,13 @@ const Repaso: React.FC = () => {
               {/* Convendria hacer un componente funcional aqui para las cartas, no se me ocurre el layout de momento eso si, un simple parrafo quizas? */}
             <IonCard >
           <IonCardHeader>
-            <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
-              <IonCardTitle>Card Title</IonCardTitle>
+            <IonCardSubtitle>Card Subtitle</IonCardSubtitle> {/*Requiere prop */}
+              <IonCardTitle>Card Title</IonCardTitle> {/*Requiere prop */}
           </IonCardHeader>
         </IonCard>
         <IonCard >
           <IonCardContent>
-            Keep close to Nature's heart... and break clear away, once in awhile,
+            Keep close to Nature's heart... and break clear away, once in awhile, {/*Requiere prop */}
             and climb a mountain or spend a week in the woods. Wash your spirit clean.
           </IonCardContent>
         </IonCard>

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import '../../src/theme/Mazo.css';
 const Mazo: React.FC = () => {
     const [nombre, DefinirNombre] = useState("");
-
     useIonViewDidLeave(() =>{
         DefinirNombre("Placeholder")
     });
