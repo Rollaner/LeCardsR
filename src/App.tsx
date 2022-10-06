@@ -25,6 +25,8 @@ import Carta from './pages/Carta';
 import Mazo from './pages/Mazo';
 import Ajustes from './pages/Ajustes';
 import Repaso from './pages/Repaso';
+import Login from './pages/Login';
+import Registro from './pages/registro';
 
 setupIonicReact();
 
@@ -32,6 +34,12 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+        <Route exact path="/login">
+          <Login />
+        </Route>
+        <Route exact path="/registro">
+          <Registro />
+        </Route>
         <Route exact path="/home">
           <Home />
         </Route>
