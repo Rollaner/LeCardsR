@@ -1,7 +1,9 @@
 import { useState } from 'react';
+
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonButtons, IonBackButton } from '@ionic/react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import '../../src/theme/Login.css';
+
 
 
 const Login: React.FC = () => {
@@ -15,13 +17,27 @@ const Login: React.FC = () => {
         signInWithEmailAndPassword(auth, correo!, contraseña!)
         .then((userCredential) => {
             // Signed in
-            const user = userCredential.user;
-            alert("Has iniciado sesión\n" + user);
-            // ...
+            // const user = userCredential.user;
+            // const auth = getAuth();
+            onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/firebase.User
+                const uid = user.uid;
+                alert("Has iniciado sesión \n User id :  " + uid);
+                // ...
+                //TODO 
+                // mandarlo a home con uid, o el objeto user, no se aún.
+                // luego en home armar la pagina con el uid, onda el listado de los mazos
+            } else {
+                // User is signed out
+            }
+            });
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
+            alert("ERROR \n " + errorCode + "\n" + errorMessage);
         });
     }
 
@@ -35,6 +51,7 @@ const Login: React.FC = () => {
             </IonButtons>
         </IonToolbar>
     </IonHeader>
+
     <IonContent fullscreen color={'medium'}>
     <div className="loginContainer">
         <form onSubmit={handleSubmit}>

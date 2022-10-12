@@ -1,0 +1,35 @@
+{"database" : [
+    { "Usuarios" : [ 
+        {
+        "nombre" : "nombre1", 
+        "uuid" : "uuid1", 
+        "correo" : "correo 1" },
+        {
+        "nombre" : "nombre2", 
+        "uuid" : "uuid2", 
+        "correo" : "correo 2" },
+        {
+        "nombre" : "nombre3", 
+        "uuid" : "uuid3", 
+        "correo" : "correo 3" }
+]},
+    {"Mazos" : { 
+        "nombre" : "nombreMazo",
+        "idMazo" : "idMazo",
+        "uuidDueño" : "uuid1",
+        "cartas" : [
+            {
+            "idCarta" : "idCarta 1",
+            "Pregunta" : "texto Pregunta",
+            "Respuesta" : "texto respuesta",
+            "UltimaRespuesta" : "texto ultima respuesta"
+            },
+            {
+                "idCarta" : "idCarta 1",
+                "Pregunta" : "texto Pregunta",
+                "Respuesta" : "texto respuesta",
+                "UltimaRespuesta" : "texto ultima respuesta"
+            }
+        ]
+    }}
+]}

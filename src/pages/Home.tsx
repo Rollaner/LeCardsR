@@ -3,9 +3,23 @@ import { IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonList,IonItem,IonFab
 import '../../src/theme/Home.css';
 import '../../src/components/MazoComponent.tsx'
 import MazoComponent from "../components/MazoComponent";
+import { getAuth } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+
 
 
 const Home: React.FC = () => {
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  //si el usuario existe, armarle la pagina
+  //TODO
+  if (user) {
+    console.log( "ID del usuario actual : " + user.uid);
+  }
+
+
   return (
     <IonPage color="dark">
       <IonHeader>

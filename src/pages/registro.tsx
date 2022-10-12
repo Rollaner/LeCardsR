@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonButtons, IonBackButton } from '@ionic/react';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { arrayUnion, doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import firebaseapp from '../firebase/firebaseconfig';
 import '../../src/theme/registro.css';
 
 
-const Registro: React.FC = () => {
-    
+const Registro: React.FC = () => {    
     const auth = getAuth();
+    const [username, setUsername] = useState<string>();
     const [correo, setCorreo] = useState<string>();
     const [contraseña1, setContraseña1] = useState<string>();
     const [contraseña2, setContraseña2] = useState<string>();
+    const db = getFirestore(firebaseapp);
 
-    function handleSubmit(submition:any){
+    async function handleSubmit(submition:any){
         submition.preventDefault();
         //comparar contraseña uno con contraseña 2 
         if(contraseña1 === contraseña2){
@@ -19,6 +22,15 @@ const Registro: React.FC = () => {
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
+                //agregar usuario al firestore
+                const usuariosRef = doc(db,"Datos","Usuarios");
+                updateDoc(usuariosRef, {
+                    Usuarios : arrayUnion({
+                        "nombre" : username,
+                        "uuid" : user.uid,
+                        "correo" : correo
+                    })
+                });
                 alert("Usuario Creado");
             })
             .catch((error) => {
@@ -30,6 +42,13 @@ const Registro: React.FC = () => {
         else{
             alert("contraseñas deben ser iguales");
         }
+        limpiarCampos();   
+    }
+    function limpiarCampos(){
+        setUsername("");
+        setCorreo("");
+        setContraseña1("");
+        setContraseña2("");
     }
 
     return(
@@ -64,7 +83,6 @@ const Registro: React.FC = () => {
     </div>     
     </IonContent> 
     </IonPage>
-
   );
 };
 
