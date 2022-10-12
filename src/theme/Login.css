@@ -1,0 +1,11 @@
+.usuario{
+    color: white;
+    --color: white;
+    --placeholder-color: white;
+    font-variant: small-caps;
+}
+.loginContainer{
+    padding: 15px;
+    width: 5cm;
+    margin:auto;
+}

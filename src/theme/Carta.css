@@ -1,6 +1,8 @@
-ion-input{
-    --color: black;
-    --placeholder-color: black;
+
+.añadirItem{
+    color: white;
+    --color: white;
+    --placeholder-color: white;
     font-variant: small-caps;
-    mix-blend-mode: difference;
 }
+

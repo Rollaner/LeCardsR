@@ -32,6 +32,9 @@ ion-radio-group{
     color: #808289;
     display: inline-flex;
 }
+ion-radio{
+  --color: #ddd;
+}
 
 h2{ 
     margin-left: 45px;
