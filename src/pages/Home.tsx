@@ -12,6 +12,8 @@ const Home: React.FC = () => {
         <IonToolbar color="dark">
           <IonTitle size="large" color={'primary'}>LeCards</IonTitle>
             <IonButtons slot="end">
+              <IonButton color={"primary"} routerLink="/registro">Registrarse</IonButton>
+              <IonButton color={"primary"} routerLink="/login">Entrar</IonButton>  
             <IonButton color={"primary"} routerLink="/preferences">Ajustes</IonButton>
             </IonButtons>
         </IonToolbar>

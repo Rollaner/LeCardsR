@@ -1,0 +1,11 @@
+ion-input{
+    --color: white;
+    --placeholder-color: white;
+    font-variant: small-caps;
+    
+}
+.registroContainer{
+        padding: 15px;
+        width: 5cm;
+        margin:auto;
+}

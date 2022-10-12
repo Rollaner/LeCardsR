@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonButtons, IonBackButton } from '@ionic/react';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import '../../src/theme/Login.css';
 
 
 const Login: React.FC = () => {
@@ -25,21 +26,31 @@ const Login: React.FC = () => {
     }
 
     return(
-    <IonPage>
+    <IonPage color="dark">
     <IonHeader>
-        <IonToolbar>
-            <IonTitle>Inicio de sesión</IonTitle>
+        <IonToolbar color="dark">
+            <IonTitle size="large" color={'primary'}>Inicio de sesión</IonTitle>
+            <IonButtons slot="start" color='medium'>
+                    <IonBackButton/>
+            </IonButtons>
         </IonToolbar>
     </IonHeader>
-    <IonContent>
-    <form onSubmit={handleSubmit}>
+    <IonContent fullscreen color={'medium'}>
+    <div className="loginContainer">
+        <form onSubmit={handleSubmit}>
+        <IonList className='usuario' lines='none'>
         <IonLabel>Usuario</IonLabel>
-        <IonInput value={correo} placeholder="Usuario" required={true} type="text" autoCapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput>           
+        <IonItem color="medium">
+        <IonInput className='usuario' value={correo} placeholder="Usuario" required={true} type="text" autoCapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput>    
+        </IonItem>       
         <IonLabel>Contraseña</IonLabel>
-        <IonInput value={contraseña} placeholder="**********" required={true} type="password" autocapitalize='off' onIonChange={e => setContraseña(e.detail.value!)}></IonInput>        
+        <IonItem color="medium">
+        <IonInput className='usuario' value={contraseña} placeholder="**********" required={true} type="password" autoCapitalize='off' onIonChange={e => setContraseña(e.detail.value!)}></IonInput>  
+        </IonItem>      
         <IonButton type="submit">Login</IonButton>
-            
-    </form>   
+        </IonList>
+        </form>   
+    </div>
     </IonContent> 
     
     </IonPage>
