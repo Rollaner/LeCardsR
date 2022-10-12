@@ -17,32 +17,31 @@ const Registro: React.FC = () => {
         submition.preventDefault();
         //comparar contraseña uno con contraseña 2 
         if(contraseña1 === contraseña2){
-            // createUserWithEmailAndPassword(auth, correo!, contraseña1!)
-            // .then((userCredential) => {
-            //     // Signed in
-            //     const user = userCredential.user;
-            //     alert("Usuario Creado");
-            // })
-            // .catch((error) => {
-            //     const errorCode = error.code;
-            //     const errorMessage = error.message;
-            //     alert("No se pudo crear el usuario\n"+ errorCode + " ; " + errorMessage);    
-            // });
-            //REGISTRO A BASE DE DATOS, SOLO CON UN NOMBRE DE USUARIO PARA PROBAR CLOUD FIRESTORE
-            const usuariosRef = doc(db,"Datos","Usuarios");
-            await updateDoc(usuariosRef, {
-                Usuarios : arrayUnion({ 
-                "nombre" : username, 
-                "uuid" : Math.random().toString(), 
-                "correo" : correo})
+            createUserWithEmailAndPassword(auth, correo!, contraseña1!)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                //agregar usuario al firestore
+                const usuariosRef = doc(db,"Datos","Usuarios");
+                updateDoc(usuariosRef, {
+                    Usuarios : arrayUnion({
+                        "nombre" : username,
+                        "uuid" : user.uid,
+                        "correo" : correo
+                    })
+                });
+                alert("Usuario Creado");
             })
-            
-            alert("usuario creado");
-            limpiarCampos();
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                alert("No se pudo crear el usuario\n"+ errorCode + " ; " + errorMessage);    
+            });
         }
         else{
             alert("contraseñas deben ser iguales");
         }
+        limpiarCampos();   
     }
     function limpiarCampos(){
         setUsername("");
