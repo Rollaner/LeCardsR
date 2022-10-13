@@ -1,4 +1,4 @@
-import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar, useIonViewDidLeave} from '@ionic/react';
+import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar, useIonViewDidLeave, IonItem} from '@ionic/react';
 import { useState } from 'react';
 import '../../src/theme/Carta.css';
 const Carta: React.FC = () => {
@@ -30,14 +30,20 @@ const Carta: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent color={'medium'}>
-                <form onSubmit={handleSubmit}>
-            <IonList>
-        <IonInput required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Pregunta" placeholder="Pregunta" 
+                <form  onSubmit={handleSubmit}>
+            <IonList lines="full">
+        <IonItem color="medium">
+        <IonInput  className='añadirItem' required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Pregunta" placeholder="Pregunta" 
         onIonChange={(e) => DefinirPregunta(e.target.value as string)}> </IonInput>
-        <IonInput required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Respuesta" placeholder="Respuesta" 
+        </IonItem>
+        <IonItem color="medium">
+        <IonInput className='añadirItem'  required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Respuesta" placeholder="Respuesta" 
         onIonChange={(e) => DefinirRespuesta(e.target.value as string)}> </IonInput>
-        <IonInput required={true} clearInput={true} autocapitalize="sentences" type="text" name="Nombremazo" placeholder="Mazo" 
+        </IonItem>
+        <IonItem color="medium">
+        <IonInput className='añadirItem' required={true} clearInput={true} autocapitalize="sentences" type="text" name="Nombremazo" placeholder="Mazo" 
         onIonChange={(e) => DefinirMazo(e.target.value as string)}> </IonInput>
+        </IonItem>
         <IonButton color={"primary"} type="submit" expand="block"> Crear carta</IonButton>
             </IonList>
             </form>

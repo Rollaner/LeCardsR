@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonButtons, IonBackButton } from '@ionic/react';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { arrayUnion, doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import firebaseapp from '../firebase/firebaseconfig';
+import '../../src/theme/registro.css';
 
 
 const Registro: React.FC = () => {    
@@ -51,24 +52,35 @@ const Registro: React.FC = () => {
     }
 
     return(
-    <IonPage>
+    <IonPage color="dark">
     <IonHeader>
-        <IonToolbar>
-            <IonTitle>Crear cuenta</IonTitle>
+        <IonToolbar color="dark">
+            <IonTitle size="large" color={'primary'}>Crear cuenta</IonTitle>
+            <IonButtons slot="start" color='medium'>
+            <IonBackButton/>
+            </IonButtons>
         </IonToolbar>
     </IonHeader>
-    <IonContent>
+    <IonContent fullscreen color={'medium'}>
+    <div className="registroContainer">   
         <form onSubmit={handleSubmit} >
-            <IonLabel>Usuario</IonLabel>
-            <IonInput value={username} placeholder="Usuario" required={true} type="text" autoCapitalize='off' onIonChange={e => setUsername(e.detail.value!)}></IonInput>           
+        <IonList className='usuario' lines='none'>
             <IonLabel>Correo</IonLabel>
-            <IonInput value={correo} placeholder="Correo" required={true} type="email" autoCapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput>           
+            <IonItem color="medium">
+            <IonInput className='usuario' value={correo} placeholder="Usuario" required={true} type="email" autocapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput> 
+            </IonItem>          
             <IonLabel>Contraseña</IonLabel>
-            <IonInput value={contraseña1} placeholder="**********" required={true} type="password" autocapitalize='off' onIonChange={e => setContraseña1(e.detail.value!)}></IonInput>        
+            <IonItem color="medium">
+            <IonInput className='usuario' value={contraseña1} placeholder="**********" required={true} type="password" autocapitalize='off' onIonChange={e => setContraseña1(e.detail.value!)}></IonInput>  
+            </IonItem>      
             <IonLabel>Confirme Contraseña</IonLabel>
-            <IonInput value={contraseña2} placeholder="**********" required={true} type="password" autocapitalize='off' onIonChange={e => setContraseña2(e.detail.value!)}></IonInput>
+            <IonItem color="medium">
+            <IonInput className='usuario' value={contraseña2} placeholder="**********" required={true} type="password" autocapitalize='off' onIonChange={e => setContraseña2(e.detail.value!)}></IonInput>
+            </IonItem>
             <IonButton type="submit">Crear usuario</IonButton>
+            </IonList>
         </form>
+    </div>     
     </IonContent> 
     </IonPage>
   );
