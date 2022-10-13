@@ -9,14 +9,18 @@ import { doc, getDoc } from "firebase/firestore";
 
 
 const Home: React.FC = () => {
-
   const auth = getAuth();
   const user = auth.currentUser;
-
   //si el usuario existe, armarle la pagina
   //TODO
   if (user) {
     console.log( "ID del usuario actual : " + user.uid);
+    MazoView();
+  }
+
+  
+  function MazoView(){
+    
   }
 
 
@@ -55,9 +59,5 @@ const Home: React.FC = () => {
     </IonPage>
   );
 };
-
-function MazoView(){
-  
-}
 
 export default Home;
