@@ -48,7 +48,9 @@ const Login: React.FC = () => {
     <IonContent>
     <form onSubmit={handleSubmit}>
         <IonLabel>Correo</IonLabel>
-        <IonInput value={correo} placeholder="Correo" required={true} type="email" autoCapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput>           
+        <IonItem color="medium">
+        <IonInput className='usuario' value={correo} placeholder="Correo" required={true} type="email" autoCapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput>    
+        </IonItem>       
         <IonLabel>Contraseña</IonLabel>
         <IonInput value={contraseña} placeholder="**********" required={true} type="password" autocapitalize='off' onIonChange={e => setContraseña(e.detail.value!)}></IonInput>        
         <IonButton type="submit">Login</IonButton>
