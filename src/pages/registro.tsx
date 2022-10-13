@@ -64,7 +64,7 @@ const Registro: React.FC = () => {
     <IonContent fullscreen color={'medium'}>
     <div className="registroContainer">   
         <form onSubmit={handleSubmit} >
-        <IonList className='usuario' lines='none'>
+        <IonList lines='none'>
             <IonLabel>Correo</IonLabel>
             <IonItem color="medium">
             <IonInput className='usuario' value={correo} placeholder="Usuario" required={true} type="email" autocapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput> 

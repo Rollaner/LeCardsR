@@ -1,16 +1,16 @@
 import { useState } from 'react';
-
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonButtons, IonBackButton } from '@ionic/react';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import '../../src/theme/Login.css';
-
+import { Redirect } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 
 const Login: React.FC = () => {
     
     const [correo, setCorreo] = useState<string>();
     const [contraseña, setContraseña] = useState<string>();
-
+    const history = useHistory();
     function handleSubmit(e:any){
         e.preventDefault()
         const auth = getAuth();
@@ -29,6 +29,7 @@ const Login: React.FC = () => {
                 //TODO 
                 // mandarlo a home con uid, o el objeto user, no se aún.
                 // luego en home armar la pagina con el uid, onda el listado de los mazos
+                history.push('/home');
             } else {
                 // User is signed out
             }
@@ -56,9 +57,9 @@ const Login: React.FC = () => {
     <div className="loginContainer">
         <form onSubmit={handleSubmit}>
         <IonList className='usuario' lines='none'>
-        <IonLabel>Usuario</IonLabel>
+        <IonLabel>Correo</IonLabel>
         <IonItem color="medium">
-        <IonInput className='usuario' value={correo} placeholder="Usuario" required={true} type="text" autoCapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput>    
+        <IonInput className='usuario' value={correo} placeholder="Correo" required={true} type="text" autoCapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput>    
         </IonItem>       
         <IonLabel>Contraseña</IonLabel>
         <IonItem color="medium">
