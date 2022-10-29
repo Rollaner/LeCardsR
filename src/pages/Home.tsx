@@ -9,19 +9,27 @@ import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, wh
 
 
 
-const Home: React.FC = () => {
+const Home: React.FC =  () => {
   const auth = getAuth();
   const user = auth.currentUser;
   //si el usuario existe, armarle la pagina
   //TODO
   const db = getFirestore(firebaseapp);
-  if (user) {
-    const mazos = query(collection(db, "Datos"), where("capital", "==", user.uid));
-
-    const qsnap = async () => { return await getDocs(mazos) };
-    const querySnapshot = qsnap()
+  
+  if (user) { getMazosDesdeFirebase(user.uid);
+  } else {
+    alert("inicia sesión siii");
   }
 
+  async function getMazosDesdeFirebase(uid:String){
+    const q = query( collection(db, "Datos", "Mazos") , where("uuid", "==", uid));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((mazo) =>{
+      alert(mazo.data());
+    });
+    
+  }
   
 
   function MazoView(){
