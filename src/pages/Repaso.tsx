@@ -1,11 +1,18 @@
 import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonGrid,IonCard,IonButton,IonCol,IonCardContent,IonCardHeader,IonCardSubtitle,IonCardTitle} from '@ionic/react';
 import { useState } from 'react';
 import '../../src/theme/Repaso.css';
+import firebaseapp from '../firebase/firebaseconfig';
+import { arrayUnion, doc, getFirestore, getDoc, updateDoc } from "firebase/firestore";
+import { useParams } from 'react-router-dom'
+
+
 const Repaso: React.FC = () => {
     const [dificultad, setDificultad] = useState(0);
     const handleSubmit = (event:any) => {
       event.preventDefault();
       alert(`The name you entered was: ${dificultad}`)}
+    type mazoLoad = {mazo: string}
+    const { mazo } = useParams<mazoLoad>()
 
     return (
         <IonPage color="dark">

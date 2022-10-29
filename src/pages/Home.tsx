@@ -4,7 +4,8 @@ import '../../src/theme/Home.css';
 import '../../src/components/MazoComponent.tsx'
 import MazoComponent from "../components/MazoComponent";
 import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import firebaseapp from '../firebase/firebaseconfig';
+import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, where, getDocs } from "firebase/firestore";
 
 
 
@@ -13,14 +14,22 @@ const Home: React.FC = () => {
   const user = auth.currentUser;
   //si el usuario existe, armarle la pagina
   //TODO
+  const db = getFirestore(firebaseapp);
   if (user) {
-    console.log( "ID del usuario actual : " + user.uid);
-    MazoView();
+    const mazos = query(collection(db, "Datos"), where("capital", "==", user.uid));
+
+    const qsnap = async () => { return await getDocs(mazos) };
+    const querySnapshot = qsnap()
   }
 
   
+
   function MazoView(){
-    
+    <IonList inset={false}>
+              <IonItem color={'primary'} lines='inset' button={true}>
+                <MazoComponent mazo={"placeholder"}></MazoComponent>
+              </IonItem>
+            </IonList>
   }
 
 
@@ -47,11 +56,9 @@ const Home: React.FC = () => {
               <IonFabButton routerLink="/ncard" href="" title="Nueva carta">
                 <IonIcon icon={add}></IonIcon>
               </IonFabButton>
-            </IonFab><IonList inset={false}>
-              <IonItem color={'primary'} lines='inset' button={true}>
-                <MazoComponent mazo={"placeholder"}></MazoComponent>
-              </IonItem>
-            </IonList></>
+            </IonFab>
+            {MazoView()}
+            </>
       }
       {false && <> 
         <IonCard>

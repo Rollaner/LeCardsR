@@ -52,7 +52,7 @@ const App: React.FC = () => (
         <Route exact path="/preferences">
           <Ajustes />
         </Route>
-        <Route exact path="/review">
+        <Route exact path="/review/:mazo">
           <Repaso />
         </Route>
         <Route exact path="/">
