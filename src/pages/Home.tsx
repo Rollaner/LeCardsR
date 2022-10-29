@@ -18,7 +18,7 @@ const Home: React.FC =  () => {
   
   if (user) { getMazosDesdeFirebase(user.uid);
   } else {
-    alert("inicia sesión siii");
+    alert("inicia sesión");
   }
 
   async function getMazosDesdeFirebase(uid:String){
@@ -33,11 +33,7 @@ const Home: React.FC =  () => {
   
 
   function MazoView(){
-    <IonList inset={false}>
-              <IonItem color={'primary'} lines='inset' button={true}>
-                <MazoComponent mazo={"placeholder"}></MazoComponent>
-              </IonItem>
-            </IonList>
+
   }
 
 
@@ -47,7 +43,7 @@ const Home: React.FC =  () => {
         <IonToolbar color="dark">
           <IonTitle size="large" color={'primary'}>LeCards</IonTitle>
             <IonButtons slot="end">
-              { true &&
+              { !auth &&
               <><IonButton color={"primary"} routerLink="/registro">Registrarse</IonButton><IonButton color={"primary"} routerLink="/login">Entrar</IonButton></>  
               }
             <IonButton color={"primary"} routerLink="/preferences">Ajustes</IonButton>
@@ -55,7 +51,7 @@ const Home: React.FC =  () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen color={'medium'}>
-      { true &&      
+      { auth &&      
         <><IonFab vertical="bottom" horizontal="start" slot="fixed">
             <IonFabButton color={"primary"} routerLink="/ndeck" title="Nuevo Mazo">
               <IonIcon icon={add}></IonIcon>
@@ -65,10 +61,14 @@ const Home: React.FC =  () => {
                 <IonIcon icon={add}></IonIcon>
               </IonFabButton>
             </IonFab>
-            {MazoView()}
+            <IonList inset={false}>
+              <IonItem color={'primary'} lines='inset' button={true}>
+                <MazoComponent mazo={"placeholder"}></MazoComponent>
+              </IonItem>
+            </IonList>
             </>
       }
-      {false && <> 
+      {!auth && <> 
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Porvafor ingrese o registrese</IonCardTitle>
