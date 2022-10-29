@@ -1,4 +1,52 @@
-* { margin: 0; padding: 0; }
+* { margin: auto; padding: 
+    auto; }
+
+.RepasoDiv {
+    display:flex;
+    flex-direction: column;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+}
+
+.autoeval {
+    position: absolute;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    min-width: 30%;
+    flex-grow: 4;
+    align-items: baseline;
+    width: 80%;
+}
+.autoevalButton {
+    --padding-start: 100px;
+    --padding-end: 100px;
+}
+@media (max-width: 1200px) {
+    
+    .autoeval {
+        position: absolute;
+        left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 2;
+    gap: 1px;
+    align-items: baseline;
+    }
+    .autoevalButton {
+        --padding-start: 15px;
+        --padding-end: 15px;
+    }
+}
 
 ion-title {
     margin-left: 15px;

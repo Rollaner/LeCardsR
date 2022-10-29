@@ -1,4 +1,4 @@
-import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonGrid,IonCard,IonButton,IonCol,IonCardContent,IonCardHeader,IonCardSubtitle,IonCardTitle, IonButtons} from '@ionic/react';
+import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonGrid,IonCard,IonButton,IonCol,IonCardContent,IonCardHeader,IonCardSubtitle,IonCardTitle, IonButtons, IonRow} from '@ionic/react';
 import { useState } from 'react';
 import '../../src/theme/Repaso.css';
 import firebaseapp from '../firebase/firebaseconfig';
@@ -41,19 +41,22 @@ const Repaso: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen color={'medium'}>
+              <div className='RepasoDiv'>
               {/* Convendria hacer un componente funcional aqui para las cartas, no se me ocurre el layout de momento eso si, un simple parrafo quizas? */}
         <CartaComponent {...props}></CartaComponent> 
-        <IonButton color="medium" onClick={ () => mostrarRespuesta()}>
+        { !cartaRespondida &&  <> <IonButton color="medium" onClick={ () => mostrarRespuesta()}>
           Mostrar respuesta
-        </IonButton>
+        </IonButton></> }
+        </div><div>
         { cartaRespondida &&      
-        <><form onSubmit={handleSubmit}><IonGrid>
-              <IonCol><IonButton color={"success"} onClick={() => resetarCarta(1)}>Facil</IonButton></IonCol>
-              <IonCol><IonButton color={"secondary"} onClick={() => resetarCarta(2)}>Bueno</IonButton></IonCol>
-              <IonCol><IonButton color={"warning"} onClick={() => resetarCarta(3)}>Dificil</IonButton></IonCol>
-              <IonCol><IonButton color={"danger"} onClick={() => resetarCarta(4)}>Errado</IonButton></IonCol>
-            </IonGrid>
+        <><form className='autoeval' onSubmit={handleSubmit}>
+              <IonButton className='autoevalButton'fill="solid" color={"success"} onClick={() => resetarCarta(1)}>Facil</IonButton>
+              <IonButton className='autoevalButton'fill="solid" color={"secondary"} onClick={() => resetarCarta(2)}>Bueno</IonButton>
+              <IonButton className='autoevalButton'fill="solid" color={"warning"} onClick={() => resetarCarta(3)}>Dificil</IonButton>
+              <IonButton className='autoevalButton'fill="solid" color={"danger"} onClick={() => resetarCarta(4)}>Errado</IonButton>
+          
         </form> </>} 
+        </div>
         </IonContent>
         </IonPage>
     );
