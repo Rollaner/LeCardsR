@@ -56,7 +56,6 @@ const Login: React.FC = () => {
     <IonContent fullscreen color={'medium'}>
     <div className="loginContainer">
         <form onSubmit={handleSubmit}>
-        <IonList className='usuario' lines='none'>
         <IonLabel>Correo</IonLabel>
         <IonItem color="medium">
         <IonInput className='usuario' value={correo} placeholder="Correo" required={true} type="text" autoCapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput>    
@@ -64,9 +63,10 @@ const Login: React.FC = () => {
         <IonLabel>Contraseña</IonLabel>
         <IonItem color="medium">
         <IonInput className='usuario' value={contraseña} placeholder="**********" required={true} type="password" autoCapitalize='off' onIonChange={e => setContraseña(e.detail.value!)}></IonInput>  
-        </IonItem>      
-        <IonButton type="submit">Login</IonButton>
-        </IonList>
+        </IonItem>  
+        <div className='loginSubmit'>   
+        <IonButton type="submit">Ingresar</IonButton>
+        </div> 
         </form>   
     </div>
     </IonContent> 

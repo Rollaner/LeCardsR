@@ -15,7 +15,6 @@ ion-input{
     top: 40%;
     transform: translate(-50%, -50%);
     display: flex;
-    flex-direction: row;
     padding: 15px;
     border: 2px;
     border-color: black;
