@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonList, IonItemDivider, IonButton, IonButtons, IonBackButton } from '@ionic/react';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { arrayUnion, doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, arrayUnion, collection, doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import firebaseapp from '../firebase/firebaseconfig';
 import '../../src/theme/registro.css';
 
@@ -19,19 +19,16 @@ const Registro: React.FC = () => {
         //comparar contraseña uno con contraseña 2 
         if(contraseña1 === contraseña2){
             createUserWithEmailAndPassword(auth, correo!, contraseña1!)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
                 // Signed in
                 const user = userCredential.user;
                 //agregar usuario al firestore
-                const usuariosRef = doc(db,"Datos","Usuarios");
-                updateDoc(usuariosRef, {
-                    Usuarios : arrayUnion({
-                        "nombre" : username,
-                        "uuid" : user.uid,
-                        "correo" : correo
-                    })
-                });
+                const userRef = await addDoc(collection(db,"ColeccionUsuarios"),{
+                    username: username,
+                    correo: correo,
+                } )
                 alert("Usuario Creado");
+                console.log("id usuario : " + userRef.id);
             })
             .catch((error) => {
                 const errorCode = error.code;

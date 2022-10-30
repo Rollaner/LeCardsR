@@ -5,7 +5,7 @@ import '../../src/components/MazoComponent.tsx'
 import MazoComponent from "../components/MazoComponent";
 import { getAuth } from "firebase/auth";
 import firebaseapp from '../firebase/firebaseconfig';
-import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, where, getDocs } from "firebase/firestore";
+import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, where, getDocs, Query } from "firebase/firestore";
 
 
 
@@ -16,19 +16,24 @@ const Home: React.FC =  () => {
   //TODO
   const db = getFirestore(firebaseapp);
   
-  if (user) { getMazosDesdeFirebase(user.uid);
+  var flagQueryHecho:Boolean = false;
+
+  if (user) { 
+    console.log(user.uid);
+    getMazosDesdeFirebase(user.uid);
   } else {
-    alert("inicia sesión siii");
+    console.log("usuario anonimo, logeando...");
   }
 
   async function getMazosDesdeFirebase(uid:String){
-    const q = query( collection(db, "Datos", "Mazos") , where("uuid", "==", uid));
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((mazo) =>{
-      alert(mazo.data());
-    });
-    
+    if(flagQueryHecho === false){
+      flagQueryHecho = true;
+      const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user?.uid));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) =>{
+        console.log(doc.id);
+      })
+    }
   }
   
 

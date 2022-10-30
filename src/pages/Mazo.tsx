@@ -3,8 +3,9 @@ import { useState } from 'react';
 import '../../src/theme/Mazo.css';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebaseapp from '../firebase/firebaseconfig';
-import { arrayUnion, getFirestore, updateDoc } from 'firebase/firestore';
+import { addDoc, arrayUnion, collection, getFirestore, updateDoc } from 'firebase/firestore';
 import { doc, getDoc } from "firebase/firestore";
+import { userInfo } from 'os';
 
 
 
@@ -26,18 +27,15 @@ const Mazo: React.FC = () => {
     });
 
     const db = getFirestore(firebaseapp);    
-    const mazosRef = doc(db, "Datos", "Mazos");
     
-    const handleSubmit = (event:any) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
         // console.log(nombre);
         // alert(`El nombre del mazo es: ${nombre}  el usuario es : ${uid}`);
-        updateDoc(mazosRef, {
-            Mazos : arrayUnion({
-                "nombre" : nombre,
-                "uuid" : uid,
-            })
-        });
+        const mazoRef = await addDoc(collection(db,"ColeccionMazos"),{
+            nombre: nombre,
+            uuid: uid
+        })
         alert(`mazo de nombre : ${nombre} agregado al usuario de id : ${uid}`);
         event.target.reset();
     }
