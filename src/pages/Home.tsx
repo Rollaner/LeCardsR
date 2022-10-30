@@ -16,24 +16,19 @@ const Home: React.FC =  () => {
   //TODO
   const db = getFirestore(firebaseapp);
   
-  var flagQueryHecho:Boolean = false;
-
   if (user) { 
     console.log(user.uid);
     getMazosDesdeFirebase(user.uid);
   } else {
-    alert("inicia sesión");
+    console.log("inicia sesión");
   }
 
   async function getMazosDesdeFirebase(uid:String){
-    if(flagQueryHecho === false){
-      flagQueryHecho = true;
       const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user?.uid));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) =>{
-        console.log(doc.id);
+        console.log(doc.id + " =  " + doc.get("nombre") );
       })
-    }
   }
   
 

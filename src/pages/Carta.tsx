@@ -1,21 +1,51 @@
 import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar, useIonViewDidLeave, IonItem} from '@ionic/react';
+import { getAuth } from 'firebase/auth';
+import { collection, getDocs, getFirestore, where, query, addDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import '../../src/theme/Carta.css';
+import firebaseapp from '../firebase/firebaseconfig';
+
 const Carta: React.FC = () => {
     const [mazo, DefinirMazo] = useState("");
     const [pregunta, DefinirPregunta] = useState("");
     const [respuesta, DefinirRespuesta] = useState("");
-    
+    const auth = getAuth();
+    const user = auth.currentUser;
+    const db = getFirestore(firebaseapp);
+
+    class mazoClase {
+        constructor(public nombre:string,public id:string){
+        }
+    }
+    var mazos: mazoClase[] = [];
+
     useIonViewDidLeave(() =>{
         DefinirPregunta("Placeholder")
         DefinirMazo("Placeholder")
         DefinirRespuesta("Placeholder")
     });
 
+
+    async function getMazos(){
+        const q = query(collection(db,"ColeccionMazos"), where("uuid","==",user?.uid) ); 
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((mazo) =>{
+            console.log(mazo.id + " =  " + mazo.get("nombre") );
+            mazos.push(new mazoClase(mazo.get("nombre"),mazo.id ));
+        });
+        
+    }
+    
     const handleSubmit = (event:any) => {
         event.preventDefault();
         console.log(pregunta, respuesta)
         alert(`La pregunta es ${pregunta}, La respuesta es ${respuesta} y el mazo es ${mazo}`)
+        const cartaRef = addDoc(collection(db,"ColeccionMazos", "1l6J4ud2K0ieomigEu7Q","Cartas"),{
+            pregunta : pregunta,
+            respuesta : respuesta
+        }).then( () =>{
+            console.log("yep yep");
+        });
         event.target.reset();
       }
     
