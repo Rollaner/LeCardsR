@@ -13,7 +13,7 @@
 
 .autoeval {
     position: absolute;
-    left: 50%;
+    left: 49%; 
     top: 60%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -28,7 +28,8 @@
     --padding-start: 100px;
     --padding-end: 100px;
 }
-@media (max-width: 1200px) {
+
+@media (max-width: 1000px) {
     
     .autoeval {
         position: absolute;
@@ -43,8 +44,47 @@
     align-items: baseline;
     }
     .autoevalButton {
-        --padding-start: 15px;
-        --padding-end: 15px;
+        --padding-start: 55px;
+        --padding-end: 55px;
+    }
+}
+
+@media (max-width: 800px) {
+    
+    .autoeval {
+        position: absolute;
+        left: 48%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 2;
+    gap: 1px;
+    align-items: baseline;
+    }
+    .autoevalButton {
+        --padding-start:18px;
+        --padding-end: 18px;
+    }
+}
+
+@media (max-width: 400px) {
+    .autoeval {
+        position: absolute;
+        left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 2;
+    gap: 1px;
+    align-items: baseline;
+    }
+    .autoevalButton {
+        --padding-start: 10px;
+        --padding-end: 10px;
     }
 }
 
@@ -55,7 +95,6 @@ ion-title {
 ion-list {
 
     display: inline;
-    color: #808289;
 }
 
 h4{

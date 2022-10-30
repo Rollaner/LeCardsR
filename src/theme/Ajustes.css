@@ -2,6 +2,97 @@ ion-tool-bar{
     display: inline-flex;
 }
 
+.tiempoLimRadio{
+    position: absolute;
+    left: 50%; 
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    min-width: 30%;
+    flex-grow: 4;
+    align-items: baseline;
+    width: 30%;
+}
+.RadioTL {
+    display: flex;
+    flex-direction: row;
+    column-gap : 15px;
+    justify-content: space-evenly;
+    flex-basis:content;
+}
+
+
+@media (max-width: 1000px) {
+    
+    .tiempoLimRadio {
+        position: absolute;
+        left: 45%;
+        top: 50%;
+
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 2;
+    gap: 1px;
+    align-items: baseline;
+    }
+    .RadioTL {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        flex-basis:content;
+    }
+}
+
+@media (max-width: 800px) {
+    
+    .tiempoLimRadio {
+        position: absolute;
+        left: 20%;
+        top: 50%;
+
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 2;
+    gap: 1px;
+    align-items: baseline;
+    }
+    .RadioTL {
+       display: flex;
+       flex-direction: row;
+       gap: 15px;
+       flex-basis:content;
+    }
+}
+
+@media (max-width: 400px) {
+    .tiempoLimRadio {
+        position: absolute;
+        left: 10%;
+        top: 50%;
+    
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-grow: 2;
+    gap: 1px;
+    align-items: baseline;
+    }
+    .RadioTL {
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        gap: 15px;
+    }
+}
+
+
 ion-toggle {
     padding-top: 5px;
     padding-bottom: 5px;
@@ -9,14 +100,13 @@ ion-toggle {
 
 ion-list {
     display: contents;
-    background-color: #808289;
     margin: 0; padding: 0;
 }
 
 ion-list-header {
     margin: 0; padding: 0;
     display: inline;
-    background: #808289;
+    
 }
 
 ion-back-button{
@@ -29,16 +119,14 @@ ion-radio-group{
     margin: 0px;
     padding-left: 45px;
     padding-right: 5px;
-    color: #808289;
     display: inline-flex;
 }
 ion-radio{
-  --color: #ddd;
+  --color: rgb(0, 0, 0);
 }
 
 h2{ 
     margin-left: 45px;
-    color:aliceblue;
     font-size: 17px;
     display: inline-flex;
     padding-bottom: 15px;

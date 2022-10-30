@@ -47,7 +47,8 @@ const Repaso: React.FC = () => {
         { !cartaRespondida &&  <> <IonButton color="medium" onClick={ () => mostrarRespuesta()}>
           Mostrar respuesta
         </IonButton></> }
-        </div><div>
+        </div>
+        <div>
         { cartaRespondida &&      
         <><form className='autoeval' onSubmit={handleSubmit}>
               <IonButton className='autoevalButton'fill="solid" color={"success"} onClick={() => resetarCarta(1)}>Facil</IonButton>
