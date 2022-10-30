@@ -1,8 +1,8 @@
 
 .añadirItem{
-    color: white;
-    --color: white;
-    --placeholder-color: white;
+    color: black;
+    --color: black;
+    --placeholder-color: black;
     font-variant: small-caps;
 }
 
