@@ -61,9 +61,8 @@ const Registro: React.FC = () => {
     <IonContent fullscreen color={'medium'}>
     <div className="registroContainer">   
         <form onSubmit={handleSubmit} >
-        <IonList lines='none'>
             <IonLabel>Correo</IonLabel>
-            <IonItem color="medium">
+            <IonItem color="medium" lines='full'>
             <IonInput className='usuario' value={correo} placeholder="Usuario" required={true} type="email" autocapitalize='off' onIonChange={e => setCorreo(e.detail.value!)}></IonInput> 
             </IonItem>          
             <IonLabel>Contraseña</IonLabel>
@@ -75,7 +74,7 @@ const Registro: React.FC = () => {
             <IonInput className='usuario' value={contraseña2} placeholder="**********" required={true} type="password" autocapitalize='off' onIonChange={e => setContraseña2(e.detail.value!)}></IonInput>
             </IonItem>
             <IonButton type="submit">Crear usuario</IonButton>
-            </IonList>
+
         </form>
     </div>     
     </IonContent> 

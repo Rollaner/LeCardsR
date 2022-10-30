@@ -1,5 +1,5 @@
 
-import { IonButton } from '@ionic/react';
+import { IonButton, IonItem, IonLabel } from '@ionic/react';
 import './MazoComponent.css';
 
 
@@ -10,8 +10,9 @@ const MazoComponent: React.FC<{mazo: string}> = ({ mazo }) => {
         <div className='MazoComponent'>
             
                 {/* Tenemos que definir como se veran los mazos dentro de la lista de mazos (Home) */}
-               <IonButton routerLink={'/review/' + mazo}  ><h4>{mazo}</h4></IonButton>
-               
+                <IonItem color={'primary'} lines='inset' button={true} routerLink={'/review/' + mazo}>
+                <IonLabel class="ion-text-center"><h4 className='mazoH4'>{mazo}</h4></IonLabel>
+               </IonItem>
             
         </div>
     );

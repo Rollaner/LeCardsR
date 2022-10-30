@@ -62,9 +62,7 @@ const Home: React.FC =  () => {
               </IonFabButton>
             </IonFab>
             <IonList inset={false}>
-              <IonItem color={'primary'} lines='inset' button={true}>
                 <MazoComponent mazo={"placeholder"}></MazoComponent>
-              </IonItem>
             </IonList>
             </>
       }
