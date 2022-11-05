@@ -2,7 +2,7 @@ import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonGrid
 import {useEffect, useState } from 'react';
 import '../../src/theme/Repaso.css';
 import firebaseapp from '../firebase/firebaseconfig';
-import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, getDocs } from "firebase/firestore";
+import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, getDocs, QuerySnapshot } from "firebase/firestore";
 import { useParams } from 'react-router-dom'
 import CartaComponent from '../components/CartaComponent';
 
@@ -13,50 +13,43 @@ interface Iprops {
   respuesta: string; 
   respondida: boolean;  
 }
-
+type mazoLoad = {id: string}
+class MazoRepaso extends MazoClass {
+  public  cartas:any[] = []
+}
 
 const Repaso: React.FC = () => {
+    const { id } = useParams<mazoLoad>()
+    //let mrepaso = new MazoRepaso("activo",id)
+    const [cartas, setCartas] = useState([])
     const [dificultad, setDificultad] = useState(0);
     const [cartaRespondida, setRespondida] = useState(false); 
     const [cartaActual, setCartaActual] = useState(0);
+    const [terminado, setTerminado] = useState(false);
     const [propsState, setPropsState] = useState<Iprops>({
       pregunta: "P",
       respuesta: "R",
-      respondida: cartaRespondida
+      respondida: false
     });
     const handleSubmit = (event:any) => {
       event.preventDefault();
       alert(`The name you entered was: ${dificultad}`)}
-    type mazoLoad = {id: string}
-    const { id } = useParams<mazoLoad>()
-    
-    class CartaClass {
-      constructor(public pregunta:string, public respuesta:string){}
-    }
-    class MazoRepaso extends MazoClass {
-        public  cartas:CartaClass[] = []
-    }
-    const mrepaso = new MazoRepaso("activo",id)
-    let docStoreP:string 
-    let docStoreR:string 
     useEffect(() => {  //esto llama a la funcion apenas se carga el componente
       (async () => {
-        if(mrepaso.id){
-          const q = query(collection(getFirestore(firebaseapp),"ColeccionMazos",mrepaso.id,"Cartas",));
-          const querySnapshot = await getDocs(q);
-          querySnapshot.forEach( (carta:any) =>{
-            docStoreP = carta.get("pregunta"); docStoreR = carta.get("respuesta")  //se convierte en undefined apenas sale del hook, en consecuencia el array de cartas se vacia "magicamente"
-            //probablemente no estemos usando firebase de la forma correcta (el query esta bien, solo falta evitar que se borran la data)
-            mrepaso.cartas.push(new CartaClass(docStoreP,docStoreR))
-          });
-            if(mrepaso.cartas[cartaActual]){
+        if(id){
+          const q = query(collection(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas",));
+          getDocs(q).then((querySnapshot) => {
+            const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
+            setCartas(data);
+            if(data[cartaActual]){
               setPropsState({
-                pregunta: mrepaso.cartas[cartaActual].pregunta,
-                respuesta: mrepaso.cartas[cartaActual].respuesta,
+                pregunta: data[cartaActual]['pregunta'],
+                respuesta: data[cartaActual]['respuesta'],
                 respondida: cartaRespondida
               })
             } 
-        };
+          })
+        }
       })();
       return () => {
         
@@ -65,20 +58,32 @@ const Repaso: React.FC = () => {
 
     function mostrarRespuesta(){
       setRespondida(true)
+      console.log(cartas)
       setPropsState({
-        pregunta: propsState.pregunta,
-        respuesta: propsState.respuesta,
+        pregunta: cartas[cartaActual]['pregunta'],
+        respuesta: cartas[cartaActual]['respuesta'],
         respondida: true
       })
     }
     function resetarCarta(aux:number){ //esta tambien tiene que mover el array y cargar los datos de la nueva carta a los props
       setRespondida(false)
+      let i = cartaActual
+      while (i < cartas.length){
       setPropsState({
-        pregunta: propsState.pregunta,
-        respuesta: propsState.respuesta,
+        pregunta: cartas[cartaActual]['pregunta'],
+        respuesta: cartas[cartaActual]['respuesta'],
         respondida: false
       })
       setDificultad(aux)
+      setCartaActual( i++)
+      }
+      if(i == cartas.length){
+        setPropsState({
+        pregunta: "",
+        respuesta: "",
+        respondida: false})
+        setTerminado(true)
+      }
     }
     return (
         <IonPage color="dark">
@@ -91,6 +96,7 @@ const Repaso: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen color={'medium'}>
+            {!terminado && <>
               <div className='RepasoDiv'>
               {/* Convendria hacer un componente funcional aqui para las cartas, no se me ocurre el layout de momento eso si, un simple parrafo quizas? */}
         <CartaComponent {...propsState}></CartaComponent> 
@@ -108,6 +114,14 @@ const Repaso: React.FC = () => {
           
         </form> </>} 
         </div>
+        </>}
+        {terminado && 
+        <>
+          <div>
+            <h2> Repaso terminado!</h2>
+          </div>
+        </>
+        }
         </IonContent>
         </IonPage>
     );
