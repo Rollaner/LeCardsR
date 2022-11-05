@@ -3,40 +3,77 @@ import { IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonList,IonFabButton,I
 import '../../src/theme/Home.css';
 import '../../src/components/MazoComponent.tsx'
 import MazoComponent from "../components/MazoComponent";
-import { getAuth } from "firebase/auth";
+import { getAuth, setPersistence } from "firebase/auth";
 import firebaseapp from '../firebase/firebaseconfig';
 import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, where, getDocs, Query } from "firebase/firestore";
 import MazoClass from "../class/MazoClass";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
+interface IMazos {
+  nombre:string
+  id:string
+}
 
 
 const Home: React.FC =  () => {
+  const [mazos, setMazos] = useState([])
   const [logged, setLogged] = useState(false);
+  const [propsState,setPropsState] = useState<IMazos>({
+    nombre: "",
+    id:""
+  })
   const auth = getAuth();
-  const user = auth.currentUser;
+  let user = auth.currentUser;
   const db = getFirestore(firebaseapp);
-  var Mazos:MazoClass[] = []
   
-  if (user) { 
+  /*if (user) { 
     console.log(user.uid);
     setLogged(true)
-    getMazosDesdeFirebase(user.uid);
+    //getMazosDesdeFirebase(user.uid);
   } else {
     console.log("inicia sesión fallido");
-  }
+  }*/
   var props = {
     mazo: "",
     id: ""
   }
-  async function getMazosDesdeFirebase(uid:String){
+
+  useEffect(() => {  (async () => { 
+    user = auth.currentUser;
+    if(user){ 
+      console.log(user);
+      setLogged(true) 
+    }else{console.log("inicia sesión fallido");}
+  })();
+}, []);
+
+  useEffect(() => {  (async () => { 
+      user = auth.currentUser;
+      if(user){ 
+        console.log(user);
+        setLogged(true)
+      const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
+      getDocs(q).then((querySnapshot) => {
+        const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
+            setMazos(data);
+            if(data){
+              setPropsState({
+                nombre: data[0]['nombre'],
+                id: data[0]['id']
+              })
+            }
+      })}else{console.log("inicia sesión fallido");}
+    })();
+  }, [user]);
+
+ /* async function getMazosDesdeFirebase(uid:String){
       const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user?.uid));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) =>{
         console.log(doc.id + " =  " + doc.get("nombre") );
         Mazos.push(new MazoClass(doc.get("nombre"),doc.id));
       })
-  }
+  }*/
   return (
     <IonPage color="dark">
       <IonHeader>
@@ -62,12 +99,11 @@ const Home: React.FC =  () => {
               </IonFabButton>
             </IonFab>
             <IonList inset={false}>
-              {Mazos.map((mazo) => (<React.Fragment key={mazo.id}>
-                  {props.id = mazo.id} {props.mazo = mazo.nombre}
-                  <MazoComponent {...props}></MazoComponent>
-                </React.Fragment>))}
-            </IonList>
-            </>
+                    {mazos.map((mazo,i) => (
+                      
+                    <React.Fragment key={i}><MazoComponent {...mazo as IMazos}></MazoComponent></React.Fragment>))}
+            </IonList> 
+        </>
       }
       {!logged && <> 
         <IonCard>

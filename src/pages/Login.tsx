@@ -24,7 +24,6 @@ const Login: React.FC = () => {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 const uid = user.uid;
-                console.log(user.uid)
                 //alert("Has iniciado sesión \n User id :  " + uid);
                 // ...
                 //TODO 
