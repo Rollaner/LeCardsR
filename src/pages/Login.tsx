@@ -24,13 +24,13 @@ const Login: React.FC = () => {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 const uid = user.uid;
-                alert("Has iniciado sesión \n User id :  " + uid);
+                console.log(user.uid)
+                //alert("Has iniciado sesión \n User id :  " + uid);
                 // ...
                 //TODO 
                 // mandarlo a home con uid, o el objeto user, no se aún.
                 // luego en home armar la pagina con el uid, onda el listado de los mazos
                 history.push('/home');
-                window.location.reload();
             } else {
                 // User is signed out
             }
