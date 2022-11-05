@@ -2,9 +2,11 @@ import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonGrid
 import { useState } from 'react';
 import '../../src/theme/Repaso.css';
 import firebaseapp from '../firebase/firebaseconfig';
-import { arrayUnion, doc, getFirestore, getDoc, updateDoc } from "firebase/firestore";
+import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, getDocs } from "firebase/firestore";
 import { useParams } from 'react-router-dom'
 import CartaComponent from '../components/CartaComponent';
+
+import MazoClass from '../class/MazoClass';
 
 
 const Repaso: React.FC = () => {
@@ -13,9 +15,27 @@ const Repaso: React.FC = () => {
     const handleSubmit = (event:any) => {
       event.preventDefault();
       alert(`The name you entered was: ${dificultad}`)}
-    type mazoLoad = {mazo: string}
-    const { mazo } = useParams<mazoLoad>()
-    var cartas:any[]
+    type mazoLoad = {id: string}
+    const { id } = useParams<mazoLoad>()
+
+    class CartaClass {
+      constructor(public pregunta:string, public respuesta:string){}
+    }
+    class MazoRepaso extends MazoClass {
+        public  cartas:CartaClass[] = []
+    }
+
+    var mazoRepaso:MazoRepaso;
+
+    async function getDatosMazo(mazo:MazoRepaso){
+      
+      const q = query(collection(getFirestore(firebaseapp),"ColeccionMazos",mazo.id,"Cartas",));
+      const querySnapshot = await getDocs(q);    
+      querySnapshot.forEach( (carta) =>{
+        mazo.cartas.push(new CartaClass(carta.get("pregunta"),carta.get("respuesta)")))
+      });
+    }
+
     var props = {
       pregunta: "p",
       respuesta: "r",

@@ -27,6 +27,7 @@ import Ajustes from './pages/Ajustes';
 import Repaso from './pages/Repaso';
 import Login from './pages/Login';
 import Registro from './pages/registro';
+import { useState } from 'react';
 
 setupIonicReact();
 
@@ -52,7 +53,7 @@ const App: React.FC = () => (
         <Route exact path="/preferences">
           <Ajustes />
         </Route>
-        <Route exact path="/review/:mazo">
+        <Route exact path="/review/:id">
           <Repaso />
         </Route>
         <Route exact path="/">

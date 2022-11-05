@@ -30,6 +30,7 @@ const Login: React.FC = () => {
                 // mandarlo a home con uid, o el objeto user, no se aún.
                 // luego en home armar la pagina con el uid, onda el listado de los mazos
                 history.push('/home');
+                window.location.reload();
             } else {
                 // User is signed out
             }

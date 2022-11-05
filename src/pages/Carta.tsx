@@ -13,12 +13,6 @@ const Carta: React.FC = () => {
     const user = auth.currentUser;
     const db = getFirestore(firebaseapp);
 
-    class mazoClase {
-        constructor(public nombre:string,public id:string){
-        }
-    }
-    var mazos: mazoClase[] = [];
-
     useIonViewDidLeave(() =>{
         DefinirPregunta("Placeholder")
         DefinirMazo("Placeholder")
@@ -26,25 +20,27 @@ const Carta: React.FC = () => {
     });
 
 
-    async function getMazos(){
-        const q = query(collection(db,"ColeccionMazos"), where("uuid","==",user?.uid) ); 
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((mazo) =>{
-            console.log(mazo.id + " =  " + mazo.get("nombre") );
-            mazos.push(new mazoClase(mazo.get("nombre"),mazo.id ));
-        });
+    // async function getMazos(){
+    //     const q = query(collection(db,"ColeccionMazos"), where("uuid","==",user?.uid) ); 
+    //     const querySnapshot = await getDocs(q);
+    //     querySnapshot.forEach((mazo) =>{
+    //         console.log(mazo.id + " =  " + mazo.get("nombre") );
+    //         mazos.push(new mazoClase(mazo.get("nombre"),mazo.id ));
+    //     });
         
-    }
+    // }
+
+    const idMazoPlaceholder = "1l6J4ud2K0ieomigEu7Q"
     
     const handleSubmit = (event:any) => {
         event.preventDefault();
         console.log(pregunta, respuesta)
         alert(`La pregunta es ${pregunta}, La respuesta es ${respuesta} y el mazo es ${mazo}`)
-        const cartaRef = addDoc(collection(db,"ColeccionMazos", "1l6J4ud2K0ieomigEu7Q","Cartas"),{
+        const cartaRef = addDoc(collection(db,"ColeccionMazos", idMazoPlaceholder,"Cartas"),{
             pregunta : pregunta,
             respuesta : respuesta
         }).then( () =>{
-            console.log("yep yep");
+            console.log("yep yep " );
         });
         event.target.reset();
       }
