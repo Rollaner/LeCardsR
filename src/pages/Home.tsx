@@ -48,24 +48,23 @@ const Home: React.FC =  () => {
 //   })();
 // }, []);
 
-//   useEffect(() => {  (async () => { 
-//       user = auth.currentUser;
-//       if(user){ 
-//         console.log(user);
-//         setLogged(true)
-//       const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
-//       getDocs(q).then((querySnapshot) => {
-//         const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
-//             setMazos(data);
-//             if(data){
-//               setPropsState({
-//                 nombre: data[0]['nombre'],
-//                 id: data[0]['id']
-//               })
-//             }
-//       })}else{console.log("inicia sesión fallido");}
-//     })();
-//   }, [user]);
+  useEffect(() => {  (async () => { 
+      if(user){ 
+       //console.log(user);
+        setLogged(true)
+      const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
+      getDocs(q).then((querySnapshot) => {
+        const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
+            setMazos(data);
+            if(data){
+              setPropsState({
+                nombre: data[0]['nombre'],
+                id: data[0]['id']
+              })
+            }
+      })}else{console.log("inicia sesión fallido");}
+    })();
+  }, [user]);
 
  /* async function getMazosDesdeFirebase(uid:String){
       const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user?.uid));
