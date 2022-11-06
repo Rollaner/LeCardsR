@@ -28,6 +28,7 @@ import Repaso from './pages/Repaso';
 import Login from './pages/Login';
 import Registro from './pages/registro';
 import { useState } from 'react';
+import Bienvenida from './pages/Bienvenida';
 
 setupIonicReact();
 
@@ -58,6 +59,7 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
+          <Home />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

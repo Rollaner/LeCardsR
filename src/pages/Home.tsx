@@ -4,11 +4,11 @@ import '../../src/theme/Home.css';
 import '../../src/components/MazoComponent.tsx'
 import MazoComponent from "../components/MazoComponent";
 import { getAuth, setPersistence } from "firebase/auth";
-import firebaseapp from '../firebase/firebaseconfig';
+import firebaseapp, { auth } from '../firebase/firebaseconfig';
 import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, where, getDocs, Query } from "firebase/firestore";
 import MazoClass from "../class/MazoClass";
-import React, { useEffect, useState } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import {AuthContext} from "../context/AuthContext";
 interface IMazos {
   nombre:string
   id:string
@@ -22,8 +22,9 @@ const Home: React.FC =  () => {
     nombre: "",
     id:""
   })
-  const auth = getAuth();
-  let user = auth.currentUser;
+  const user = useContext(AuthContext)
+  // const auth = getAuth();
+  // let user = auth.currentUser;
   const db = getFirestore(firebaseapp);
   
   /*if (user) { 
@@ -38,19 +39,18 @@ const Home: React.FC =  () => {
     id: ""
   }
 
-  useEffect(() => {  (async () => { 
-    user = auth.currentUser;
-    if(user){ 
-      console.log(user);
-      setLogged(true) 
-    }else{console.log("inicia sesión fallido");}
-  })();
-}, []);
+//   useEffect(() => {  (async () => { 
+//     user = auth.currentUser;
+//     if(user){ 
+//       console.log(user);
+//       setLogged(true) 
+//     }else{console.log("inicia sesión fallido");}
+//   })();
+// }, []);
 
   useEffect(() => {  (async () => { 
-      user = auth.currentUser;
       if(user){ 
-        console.log(user);
+       //console.log(user);
         setLogged(true)
       const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
       getDocs(q).then((querySnapshot) => {
@@ -74,21 +74,28 @@ const Home: React.FC =  () => {
         Mazos.push(new MazoClass(doc.get("nombre"),doc.id));
       })
   }*/
+
+  function logout(){
+    auth.signOut();
+  }
   return (
     <IonPage color="dark">
       <IonHeader>
         <IonToolbar color="dark">
           <IonTitle size="large" color={'primary'}>LeCards</IonTitle>
             <IonButtons slot="end">
-              { !logged &&
+              { !user &&
               <><IonButton color={"primary"} routerLink="/registro">Registrarse</IonButton><IonButton color={"primary"} routerLink="/login">Entrar</IonButton></>  
+              }
+              { user &&
+                <><IonButton color ={"primary"} onClick={() => logout()} >Salir</IonButton></>
               }
             <IonButton color={"primary"} routerLink="/preferences">Ajustes</IonButton>
             </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen color={'medium'}>
-      { logged &&      
+      { user &&      
         <><IonFab vertical="bottom" horizontal="start" slot="fixed">
             <IonFabButton color={"primary"} routerLink="/ndeck" title="Nuevo Mazo">
               <IonIcon icon={add}></IonIcon>
@@ -105,7 +112,7 @@ const Home: React.FC =  () => {
             </IonList> 
         </>
       }
-      {!logged && <> 
+      {!user && <> 
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Porvafor ingrese o registrese</IonCardTitle>
