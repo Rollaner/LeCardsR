@@ -1,11 +1,14 @@
 import { User } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState, useEffect } from "react";
 import { auth } from "../firebase/firebaseconfig";
+import { AuthContext } from "./AuthContext";
 
 
+type NewType = {
+    children : React.ReactNode;
+};
 
-export function AuthProvider({ children }) {
+export const AuthProvider: React.FC<NewType> = ({ children }) =>  {
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
@@ -15,6 +18,8 @@ export function AuthProvider({ children }) {
 
         return unsubscribe;
     }, []);
+
+    
 
     return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 }

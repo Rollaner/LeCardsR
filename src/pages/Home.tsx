@@ -7,8 +7,8 @@ import { getAuth, setPersistence } from "firebase/auth";
 import firebaseapp from '../firebase/firebaseconfig';
 import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, where, getDocs, Query } from "firebase/firestore";
 import MazoClass from "../class/MazoClass";
-import React, { useEffect, useState } from "react";
-
+import React, { useContext, useEffect, useState } from "react";
+import {AuthContext} from "../context/AuthContext";
 interface IMazos {
   nombre:string
   id:string
@@ -22,8 +22,9 @@ const Home: React.FC =  () => {
     nombre: "",
     id:""
   })
-  const auth = getAuth();
-  let user = auth.currentUser;
+  const user = useContext(AuthContext)
+  // const auth = getAuth();
+  // let user = auth.currentUser;
   const db = getFirestore(firebaseapp);
   
   /*if (user) { 
@@ -38,33 +39,33 @@ const Home: React.FC =  () => {
     id: ""
   }
 
-  useEffect(() => {  (async () => { 
-    user = auth.currentUser;
-    if(user){ 
-      console.log(user);
-      setLogged(true) 
-    }else{console.log("inicia sesión fallido");}
-  })();
-}, []);
+//   useEffect(() => {  (async () => { 
+//     user = auth.currentUser;
+//     if(user){ 
+//       console.log(user);
+//       setLogged(true) 
+//     }else{console.log("inicia sesión fallido");}
+//   })();
+// }, []);
 
-  useEffect(() => {  (async () => { 
-      user = auth.currentUser;
-      if(user){ 
-        console.log(user);
-        setLogged(true)
-      const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
-      getDocs(q).then((querySnapshot) => {
-        const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
-            setMazos(data);
-            if(data){
-              setPropsState({
-                nombre: data[0]['nombre'],
-                id: data[0]['id']
-              })
-            }
-      })}else{console.log("inicia sesión fallido");}
-    })();
-  }, [user]);
+//   useEffect(() => {  (async () => { 
+//       user = auth.currentUser;
+//       if(user){ 
+//         console.log(user);
+//         setLogged(true)
+//       const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
+//       getDocs(q).then((querySnapshot) => {
+//         const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
+//             setMazos(data);
+//             if(data){
+//               setPropsState({
+//                 nombre: data[0]['nombre'],
+//                 id: data[0]['id']
+//               })
+//             }
+//       })}else{console.log("inicia sesión fallido");}
+//     })();
+//   }, [user]);
 
  /* async function getMazosDesdeFirebase(uid:String){
       const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user?.uid));
