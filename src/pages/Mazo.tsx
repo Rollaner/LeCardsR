@@ -6,12 +6,14 @@ import firebaseapp from '../firebase/firebaseconfig';
 import { addDoc, arrayUnion, collection, getFirestore, updateDoc } from 'firebase/firestore';
 import { doc, getDoc } from "firebase/firestore";
 import { userInfo } from 'os';
+import { useHistory } from 'react-router';
 
 
 
 const Mazo: React.FC = () => {
     
     const [nombre, DefinirNombre] = useState("");
+    const history = useHistory();
     useIonViewDidLeave(() =>{
         DefinirNombre("Placeholder")
     });
@@ -36,8 +38,8 @@ const Mazo: React.FC = () => {
             nombre: nombre,
             uuid: uid
         })
-        alert(`mazo de nombre : ${nombre} agregado al usuario de id : ${uid}`);
         event.target.reset();
+        history.push('/home');
     }
 
 
