@@ -122,13 +122,14 @@ const Repaso: React.FC = () => {
       setRespondida(false)
       let i = cartaActual
       while (i < datosCartas.length){
+      let tiempo = datosCartas[cartaActual]['tiempo']*aux
+      //actualizar tiempo de la carta
+      setCartaActual( i++)
       setPropsState({
         pregunta: datosCartas[cartaActual]['pregunta'],
         respuesta: datosCartas[cartaActual]['respuesta'],
         respondida: false
       })
-      setDificultad(aux)
-      setCartaActual( i++)
       }
       if(i == datosCartas.length){
         setPropsState({
@@ -160,10 +161,10 @@ const Repaso: React.FC = () => {
         <div>
         { cartaRespondida &&      
         <><form className='autoeval' onSubmit={handleSubmit}>
-              <IonButton className='autoevalButton'fill="solid" color={"success"} onClick={() => resetarCarta(1)}>Facil</IonButton>
+              <IonButton className='autoevalButton'fill="solid" color={"success"} onClick={() => resetarCarta(3)}>Facil</IonButton>
               <IonButton className='autoevalButton'fill="solid" color={"secondary"} onClick={() => resetarCarta(2)}>Bueno</IonButton>
-              <IonButton className='autoevalButton'fill="solid" color={"warning"} onClick={() => resetarCarta(3)}>Dificil</IonButton>
-              <IonButton className='autoevalButton'fill="solid" color={"danger"} onClick={() => resetarCarta(4)}>Errado</IonButton>
+              <IonButton className='autoevalButton'fill="solid" color={"warning"} onClick={() => resetarCarta(1)}>Dificil</IonButton>
+              <IonButton className='autoevalButton'fill="solid" color={"danger"} onClick={() => resetarCarta(0.5)}>Errado</IonButton>
           
         </form> </>} 
         </div>
