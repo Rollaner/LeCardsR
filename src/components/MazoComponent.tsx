@@ -1,5 +1,5 @@
 
-import { IonButton, IonItem, IonLabel } from '@ionic/react';
+import { IonItem, IonLabel } from '@ionic/react';
 import './MazoComponent.css';
 
 

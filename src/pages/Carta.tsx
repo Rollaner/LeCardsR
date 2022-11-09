@@ -1,5 +1,4 @@
 import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar, useIonViewDidLeave, IonItem, IonSelect, IonSelectOption} from '@ionic/react';
-import { getAuth } from 'firebase/auth';
 import { collection, getDocs, getFirestore, where, query, addDoc, onSnapshot } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import '../../src/theme/Carta.css';
@@ -40,6 +39,7 @@ const Carta: React.FC = () => {
               data = [...data,change.doc.data()]
               setMazos(data)
               setId(indexer)
+              console.log(data)
             }
           });
         });

@@ -4,7 +4,6 @@ import '../../src/theme/Mazo.css';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebaseapp from '../firebase/firebaseconfig';
 import { addDoc, arrayUnion, collection, getFirestore, updateDoc } from 'firebase/firestore';
-import { doc, getDoc } from "firebase/firestore";
 import { userInfo } from 'os';
 import { useHistory } from 'react-router';
 

@@ -1,4 +1,4 @@
-import { IonContent,IonBackButton,IonHeader,IonPage,IonTitle,IonToolbar, IonButton,IonButtons, IonList, IonLabel, IonItem, IonRadioGroup, IonToggle, IonRadio, IonListHeader} from '@ionic/react';
+import { IonContent,IonBackButton,IonHeader,IonPage,IonTitle,IonToolbar,IonButtons, IonList, IonLabel, IonItem, IonRadioGroup, IonToggle, IonRadio, IonListHeader} from '@ionic/react';
 import { SetStateAction, useRef, useState } from 'react';
 import '../../src/theme/Ajustes.css';
 const Ajustes: React.FC = () => {

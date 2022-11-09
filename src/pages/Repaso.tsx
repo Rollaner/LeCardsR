@@ -1,4 +1,4 @@
-import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonGrid,IonCard,IonButton,IonCol,IonCardContent,IonCardHeader,IonCardSubtitle,IonCardTitle, IonButtons, IonRow} from '@ionic/react';
+import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonButton, IonButtons} from '@ionic/react';
 import {useEffect, useState } from 'react';
 import '../../src/theme/Repaso.css';
 import firebaseapp from '../firebase/firebaseconfig';
@@ -18,10 +18,12 @@ class MazoRepaso extends MazoClass {
   public  cartas:any[] = []
 }
 
+///interfaz carta: tiene que sedr un finger tree o zipper
+
 const Repaso: React.FC = () => {
     const { id } = useParams<mazoLoad>()
     //let mrepaso = new MazoRepaso("activo",id)
-    const [cartas, setCartas] = useState([])
+    const [datosCartas, setDatosCartas] = useState([])
     const [dificultad, setDificultad] = useState(0);
     const [cartaRespondida, setRespondida] = useState(false); 
     const [cartaActual, setCartaActual] = useState(0);
@@ -40,7 +42,7 @@ const Repaso: React.FC = () => {
           const q = query(collection(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas",));
           getDocs(q).then((querySnapshot) => {
             const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
-            setCartas(data);
+            setDatosCartas(data);
             if(data[cartaActual]){
               setPropsState({
                 pregunta: data[cartaActual]['pregunta'],
@@ -58,26 +60,26 @@ const Repaso: React.FC = () => {
 
     function mostrarRespuesta(){
       setRespondida(true)
-      console.log(cartas)
+      console.log(datosCartas)
       setPropsState({
-        pregunta: cartas[cartaActual]['pregunta'],
-        respuesta: cartas[cartaActual]['respuesta'],
+        pregunta: datosCartas[cartaActual]['pregunta'],
+        respuesta: datosCartas[cartaActual]['respuesta'],
         respondida: true
       })
     }
     function resetarCarta(aux:number){ //esta tambien tiene que mover el array y cargar los datos de la nueva carta a los props
       setRespondida(false)
       let i = cartaActual
-      while (i < cartas.length){
+      while (i < datosCartas.length){
       setPropsState({
-        pregunta: cartas[cartaActual]['pregunta'],
-        respuesta: cartas[cartaActual]['respuesta'],
+        pregunta: datosCartas[cartaActual]['pregunta'],
+        respuesta: datosCartas[cartaActual]['respuesta'],
         respondida: false
       })
       setDificultad(aux)
       setCartaActual( i++)
       }
-      if(i == cartas.length){
+      if(i == datosCartas.length){
         setPropsState({
         pregunta: "",
         respuesta: "",
