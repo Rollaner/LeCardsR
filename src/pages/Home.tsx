@@ -17,6 +17,9 @@ interface IMazos {
 
 const Home: React.FC =  () => {
   let data:any = []
+  let indexer:any = []
+  let propAux:IMazos 
+  const [MId,setId] = useState([])
   const [mazos, setMazos] = useState([])
   const [logged, setLogged] = useState(false);
   const user = useContext(AuthContext)
@@ -30,8 +33,10 @@ const Home: React.FC =  () => {
       const unsub = onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
+            indexer = [...indexer, change.doc.id]
             data = [...data,change.doc.data()]
             setMazos(data);
+            setId(indexer)
           }
         });
       });
@@ -79,16 +84,15 @@ const Home: React.FC =  () => {
               </IonFabButton>
             </IonFab>
             <IonList inset={false}>
-                    { mazos.map((mazo: IMazos,i: React.Key) => (
-                      
-                    <React.Fragment key={i}><MazoComponent {...mazo as IMazos}></MazoComponent></React.Fragment>))}
+                    { mazos.map((mazo: IMazos,i:number ) => (
+                    <React.Fragment key={i}><MazoComponent {...propAux = {nombre: mazo.nombre, id: MId[i]}}></MazoComponent></React.Fragment>))}
             </IonList> 
         </>
       }
       {!user && <> 
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>Porvafor ingrese o registrese</IonCardTitle>
+            <IonCardTitle>Porfavor ingrese o registrese</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             Es necesario que ingrese un usuario valido antes de utilizar la aplicación, utilize los botones que estan arriba para comenzar.

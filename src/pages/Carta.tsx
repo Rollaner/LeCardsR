@@ -6,14 +6,16 @@ import '../../src/theme/Carta.css';
 import { AuthContext } from '../context/AuthContext';
 import firebaseapp from '../firebase/firebaseconfig';
 interface IMazos {
-    nombre:string
-    id:string
+    nombre:string;
+    id:string;
   }
   const options = {
     cssClass: 'mazoSelect'
   };
 const Carta: React.FC = () => {
     let data:any = []
+    let indexer:any = []
+    const [MId,setId] = useState([])
     const [mazos, setMazos] = useState([])
     const [mazo, setMazo] = useState("");
     const [pregunta, setPregunta] = useState("");
@@ -34,8 +36,10 @@ const Carta: React.FC = () => {
         const unsub = onSnapshot(q, (querySnapshot) => {
           querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
+              indexer = [...indexer, change.doc.id]
               data = [...data,change.doc.data()]
-              setMazos(data);
+              setMazos(data)
+              setId(indexer)
             }
           });
         });
@@ -46,8 +50,8 @@ const Carta: React.FC = () => {
     const handleSubmit = (event:any) => {
         event.preventDefault();
         console.log(pregunta, respuesta)
-        alert(`La pregunta es ${pregunta}, La respuesta es ${respuesta} y el mazo es ${mazo}`)
-        const cartaRef = addDoc(collection(db,"ColeccionMazos", mazo,"Cartas"),{
+        //alert(`La pregunta es ${pregunta}, La respuesta es ${respuesta} y el mazo es ${mazo}`)
+        const cartaRef = addDoc(collection(db,"ColeccionMazos", mazo,"Cartas"),{ //cambiar handle submit para que trabaje con nombre de mazo
             pregunta : pregunta,
             respuesta : respuesta
         })
@@ -78,14 +82,10 @@ const Carta: React.FC = () => {
         <IonInput className='añadirItem'  required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Respuesta" placeholder="Respuesta" 
         onIonChange={(e) => setRespuesta(e.target.value as string)}> </IonInput>
         </IonItem>
-        <IonItem color="medium">
-        <IonInput className='añadirItem' required={true} clearInput={true} autocapitalize="sentences" type="text" name="Nombremazo" placeholder="Mazo" 
-        onIonChange={(e) => setMazo(e.target.value as string)}> </IonInput>
-        </IonItem>
             <IonItem className='mazoSelectContainer'>
                 <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione mazo" interfaceOptions={options}  onIonChange={(e) => cambiarMazo(e.detail.value)}>
-                { mazos.map((mazo: IMazos,i: React.Key) => (
-                    <IonSelectOption key={i} value={mazo.id} class="mazo-option">{mazo.nombre}</IonSelectOption>
+                { mazos.map((mazo: IMazos,i: number) => (
+                    <IonSelectOption key={i} value={MId[i]} class="mazo-option">{mazo.nombre}</IonSelectOption>
                     ))}
                 </IonSelect>
             </IonItem>
