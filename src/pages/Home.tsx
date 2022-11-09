@@ -30,16 +30,8 @@ const Home: React.FC =  () => {
       const unsub = onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
-            console.log("New city: ", change.doc.data());
             data = [...data,change.doc.data()]
             setMazos(data);
-          }
-          if (change.type === "modified") {
-
-              console.log("Modified city: ", change.doc.data());
-          }
-          if (change.type === "removed") {
-              console.log("Removed city: ", change.doc.data());
           }
         });
       });
