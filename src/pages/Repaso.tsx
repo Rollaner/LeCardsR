@@ -18,10 +18,50 @@ class MazoRepaso extends MazoClass {
   public  cartas:any[] = []
 }
 
+interface repasoList {
+  data:any;
+  tiempo: number;
+  siguiente: repasoList | null 
+}
+
+function addToRepaso(data:any, tiempo:number, head:repasoList | null ):repasoList {
+  if(!head){
+    let newHead:repasoList = {
+      data:data,
+      tiempo: tiempo,
+      siguiente: null 
+    }
+    return newHead
+  }
+  if(head.tiempo < tiempo){
+  let newHead:repasoList = {
+      data:data,
+      tiempo: tiempo,
+      siguiente: head 
+    }
+    return newHead
+  }else{
+    let node:repasoList = {
+      data:data,
+      tiempo: tiempo,
+      siguiente: null
+    }
+    if(head.siguiente == null){
+      head.siguiente = node
+    }else{
+      let aux = head.siguiente
+      head.siguiente = addToRepaso(data,tiempo,aux)
+    }
+    return head
+  }  
+  
+}
+
 ///interfaz carta: tiene que sedr un finger tree o zipper
 
 const Repaso: React.FC = () => {
     const { id } = useParams<mazoLoad>()
+    let repasoActual:repasoList //head del struct
     //let mrepaso = new MazoRepaso("activo",id)
     const [datosCartas, setDatosCartas] = useState([])
     const [dificultad, setDificultad] = useState(0);
@@ -43,6 +83,12 @@ const Repaso: React.FC = () => {
           getDocs(q).then((querySnapshot) => {
             const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
             setDatosCartas(data);
+            let i = 0
+            datosCartas.forEach(carta => {
+              if(i == 0)
+                repasoActual = addToRepaso(carta, carta[i]['tiempo'],null)
+                repasoActual = addToRepaso(carta, carta[i]['tiempo'],repasoActual)  
+            });
             if(data[cartaActual]){
               setPropsState({
                 pregunta: data[cartaActual]['pregunta'],
@@ -67,6 +113,11 @@ const Repaso: React.FC = () => {
         respondida: true
       })
     }
+
+    function cambiarCarta(){
+
+    }
+
     function resetarCarta(aux:number){ //esta tambien tiene que mover el array y cargar los datos de la nueva carta a los props
       setRespondida(false)
       let i = cartaActual
