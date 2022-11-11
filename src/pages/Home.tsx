@@ -9,10 +9,8 @@ import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, wh
 import MazoClass from "../class/MazoClass";
 import React, { useContext, useEffect, useState } from "react";
 import {AuthContext} from "../context/AuthContext";
-interface IMazos {
-  nombre:string
-  id:string
-}
+import IMazos from "../interfaces/Imazo";
+
 
 
 const Home: React.FC =  () => {
@@ -80,6 +78,12 @@ const Home: React.FC =  () => {
                     { mazos.map((mazo: IMazos,i:number ) => (
                     <React.Fragment key={i}><MazoComponent {...propAux = {nombre: mazo.nombre, id: MId[i]}}></MazoComponent></React.Fragment>))}
             </IonList>
+            <IonFab vertical="bottom" horizontal="start" slot="fixed">
+          <IonFabButton routerLink="/edeck" title="Editar Mazo">
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>
+        </IonFab> 
+
             <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton title="Nuevo">
             <IonIcon icon={add}></IonIcon>

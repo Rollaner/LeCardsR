@@ -29,6 +29,7 @@ import Login from './pages/Login';
 import Registro from './pages/registro';
 import { useState } from 'react';
 import Bienvenida from './pages/Bienvenida';
+import MazoEdit from './pages/MazoEdit';
 
 setupIonicReact();
 
@@ -50,6 +51,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/ndeck">
           <Mazo />
+        </Route>
+        <Route exact path="/edeck">
+          <MazoEdit/>
         </Route>
         <Route exact path="/preferences">
           <Ajustes />

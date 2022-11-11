@@ -4,10 +4,9 @@ import { useContext, useEffect, useState } from 'react';
 import '../../src/theme/Carta.css';
 import { AuthContext } from '../context/AuthContext';
 import firebaseapp from '../firebase/firebaseconfig';
-interface IMazos {
-    nombre:string;
-    id:string;
-  }
+import IMazos from '../interfaces/Imazo';
+
+
   const options = {
     cssClass: 'mazoSelect'
   };
