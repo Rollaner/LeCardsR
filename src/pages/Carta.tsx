@@ -1,4 +1,4 @@
-import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar, useIonViewDidLeave, IonItem, IonSelect, IonSelectOption} from '@ionic/react';
+import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar, useIonViewDidLeave, IonItem, IonSelect, IonSelectOption, IonToast} from '@ionic/react';
 import { collection, getDocs, getFirestore, where, query, addDoc, onSnapshot } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import '../../src/theme/Carta.css';
@@ -14,6 +14,9 @@ interface IMazos {
 const Carta: React.FC = () => {
     let data:any = []
     let indexer:any = []
+    const [limCartas,setLimCartas] = useState(20)
+    const [stateMsg, setStateMsg] = useState("")
+    const [showToast, setShowToast] = useState(false);
     const [MId,setId] = useState([])
     const [mazos, setMazos] = useState([])
     const [mazo, setMazo] = useState("");
@@ -56,6 +59,12 @@ const Carta: React.FC = () => {
             respuesta : respuesta,
             tiempo : time
         })
+        let auxLim = limCartas
+        auxLim--
+        setLimCartas(auxLim)
+        let auxString = "Puede agregar " + limCartas + " cartas hoy"
+        setStateMsg(auxString)
+        setShowToast(true)
         event.target.reset();
       }
     const cambiarMazo = (event: any) => {
@@ -90,7 +99,24 @@ const Carta: React.FC = () => {
                     ))}
                 </IonSelect>
             </IonItem>
-            <IonButton color={"primary"} type="submit" expand="block"> Crear carta</IonButton>
+            {limCartas > 0 && <>
+                <IonButton color={"primary"} type="submit" expand="block"> Crear carta</IonButton>
+                <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message= {stateMsg}
+                duration={1500}
+                />
+            </>}
+            {limCartas <= 0 && <>
+                <IonButton color={"primary"} disabled={true} type="submit" expand="block"> Crear carta </IonButton>
+                <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message="Ha alcanzado el limite de cartas nuevas por hoy, vuelva mañana"
+                duration={1500}
+                />
+            </>}
             </IonList>
             </form>
             </IonContent>

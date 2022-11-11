@@ -1,4 +1,16 @@
-* { margin: 0; padding: 0; }
+
+ion-fab-list{
+    margin-bottom: 55px;
+}
+
+ion-fab-button::part(native) {  
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,.3), 0px 1px 3px 1px rgba(0,0,0,.15);
+    color: black;
+  }
+
+.popover-button{
+    margin-bottom: 6px;
+} 
 
 ion-title {
     margin-left: 15px;
@@ -9,7 +21,6 @@ ion-list {
     min-height: 300px;
     width: 100%;
     margin-bottom: 10px;
-
 }
 
 h4{

@@ -1,5 +1,5 @@
 import { add } from "ionicons/icons";
-import { IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonList,IonFabButton,IonFab,IonIcon,IonButtons,IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle } from '@ionic/react';
+import { IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonList,IonFabButton,IonFab,IonIcon,IonButtons,IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonPopover, IonItem, IonFabList } from '@ionic/react';
 import '../../src/theme/Home.css';
 import '../../src/components/MazoComponent.tsx'
 import MazoComponent from "../components/MazoComponent";
@@ -72,23 +72,30 @@ const Home: React.FC =  () => {
             </IonButtons>
         </IonToolbar>
       </IonHeader>
+      
       <IonContent fullscreen color={'medium'}>
       { user &&      
-        <><IonFab vertical="bottom" horizontal="start" slot="fixed">
-            <IonFabButton color={"primary"} routerLink="/ndeck" title="Nuevo Mazo">
-              <IonIcon icon={add}></IonIcon>
-            </IonFabButton>
-          </IonFab><IonFab vertical="bottom" horizontal="end" slot="fixed">
-              <IonFabButton routerLink="/ncard" href="" title="Nueva carta">
-                <IonIcon icon={add}></IonIcon>
-              </IonFabButton>
-            </IonFab>
+        <>
             <IonList inset={false}>
                     { mazos.map((mazo: IMazos,i:number ) => (
                     <React.Fragment key={i}><MazoComponent {...propAux = {nombre: mazo.nombre, id: MId[i]}}></MazoComponent></React.Fragment>))}
-            </IonList> 
+            </IonList>
+            <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton title="Nuevo">
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>
+          <IonFabList side="top">
+            <IonFabButton className="popover-button" routerLink="/ncard">
+              <IonIcon icon={add} color="dark"></IonIcon>
+            </IonFabButton>
+            <IonFabButton className="popover-button" routerLink="/ndeck">
+              <IonIcon icon={add} color="dark"></IonIcon>
+            </IonFabButton>
+          </IonFabList>
+        </IonFab> 
         </>
       }
+
       {!user && <> 
         <IonCard>
           <IonCardHeader>
