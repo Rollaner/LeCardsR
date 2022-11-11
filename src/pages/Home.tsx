@@ -1,5 +1,5 @@
 import { add } from "ionicons/icons";
-import { IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonList,IonFabButton,IonFab,IonIcon,IonButtons,IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonPopover, IonItem, IonFabList } from '@ionic/react';
+import { IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonList,IonFabButton,IonFab,IonIcon,IonButtons,IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonFabList, IonCardSubtitle } from '@ionic/react';
 import '../../src/theme/Home.css';
 import '../../src/components/MazoComponent.tsx'
 import MazoComponent from "../components/MazoComponent";
@@ -22,7 +22,10 @@ const Home: React.FC =  () => {
   const [logged, setLogged] = useState(false);
   const user = useContext(AuthContext)
   const db = getFirestore(firebaseapp);
-
+  const [racha,setRacha] = useState(0)
+  const [userRecord,setUserRecord] = useState(5)
+  let faltantes = racha - userRecord
+ 
   useEffect(() => {  (async () => { 
       if(user){ 
        //console.log(user);
@@ -72,6 +75,17 @@ const Home: React.FC =  () => {
       </IonHeader>
       
       <IonContent fullscreen color={'medium'}>
+
+        {racha >= 3 && <>
+        <div className="rachaDiv">
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>¡Felicitaciones, tiene una racha de {racha} repasos consecutivos!</IonCardTitle>
+            <IonCardSubtitle>¡Le quedan {faltantes} para superar su record de {userRecord} repasos!</IonCardSubtitle>
+          </IonCardHeader>
+        </IonCard>
+        </div>
+        </>}
       { user &&      
         <>
             <IonList inset={false}>
