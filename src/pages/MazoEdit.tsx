@@ -1,4 +1,4 @@
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
+import { IonAlert, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
 import { collection, getDocs, getFirestore, where, query, addDoc, onSnapshot } from 'firebase/firestore';
 import { options } from 'ionicons/icons';
 import { useState, useContext, useEffect } from 'react';
@@ -11,6 +11,8 @@ import './MazoComponent.css';
 const MazoEdit: React.FC = () => {
     let indexer:any = []
     let data:any = []
+    const [selected,setSelected] = useState(false)
+    const [del, setDel] = useState(false)
     const [mazos, setMazos] = useState([])
     const [mazo, setMazo] = useState("");
     const [nombre, setNombre] = useState("");
@@ -38,10 +40,23 @@ const MazoEdit: React.FC = () => {
     }, [user]);
 
 
+    const handleSelect = (event:any) => {
+        event.preventDefault();
+        setMazo(event)
+        setSelected(true)
+    } 
+
     const handleSubmit = (event:any) => {
         event.preventDefault();
-        
+        setMazo(event)
+        //editar datos firebase
+        setSelected(false)
     } 
+
+    const handleDelete = () => {
+        //eliminar mazo firebase
+
+    }
     
     return(
         <IonPage color="dark">
@@ -57,21 +72,44 @@ const MazoEdit: React.FC = () => {
       <IonContent fullscreen color={'medium'}>
       <IonItem className='mazoSelectContainer'>
 
-                <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione mazo para editar" interfaceOptions={options}  onIonChange={(e) => setMazo(e.detail.value)}>
+                <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione mazo para editar" interfaceOptions={options}  onIonChange={(e) => handleSelect(e.detail.value)}>
                 { mazos.map((mazo: IMazos,i: number) => (
                     <IonSelectOption key={i} value={MId[i]} class="mazo-option">{mazo.nombre}</IonSelectOption>
                     ))}
                 </IonSelect>
             </IonItem>
-      <form  onSubmit={handleSubmit}>
+        {selected && <>
+        <form  onSubmit={handleSubmit}>
             <IonList lines="full">
         <IonItem color="medium">
         <IonInput  className='añadirItem' required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Pregunta" placeholder="Pregunta" 
         onIonChange={(e) => setNombre(e.target.value as string)}> </IonInput>
         </IonItem>
         </IonList>
+        <IonButton color={"danger"} type="button" onClick={() => setDel(true)} expand="block"> Eliminar mazo </IonButton>
+        <IonAlert
+            isOpen={del}
+            onDidDismiss={() => setDel(false)}
+            header="Alert"
+            subHeader="Important message"
+            backdropDismiss = {false}
+            message="Esta accion es permanente, ¿esta seguro que desea continuar?"
+            buttons={[{
+                text: 'No',
+                role: 'cancel',
+                cssClass: 'alert-button-cancel',
+              },
+              {
+                text: 'Si',
+                role: 'confirm',
+                cssClass: 'alert-button-confirm',
+                handler: () => {
+                    handleDelete();
+                  },
+              },]}
+        />
         </form>
-        
+        </>}
       </IonContent>
       </IonPage>
         
