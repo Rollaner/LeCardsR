@@ -1,7 +1,5 @@
 
 .añadirItem{
-    color: black;
-    --color: black;
     --placeholder-color: black;
     font-variant: small-caps;
 }
@@ -14,7 +12,8 @@
   }
 
   ion-select {
-    --placeholder-color:#000000;
+    --placeholder-color:white;
+    --background-color:#e97223;
   }
   
   .sc-ion-action-sheet-md-h {
@@ -29,12 +28,12 @@
   }
 
  .mazoSelect .alert-wrapper {
-    --color: #000000;
+  --background: #f58840;
     --background: #f58840;
-    --placeholder-color:#000000;
+    --placeholder-color:#white;
     --backdrop-opacity: 0.6;
     --button-background-selected: #e97223;
-    --button-color: #000000;
+    --background: #f58840;
     --min-width: 90%;
   }
 

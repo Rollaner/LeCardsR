@@ -13,6 +13,7 @@ import IMazos from '../interfaces/Imazo';
 const Carta: React.FC = () => {
     let data:any = []
     let indexer:any = []
+    const [showMazoInput, setShowMazoInput] = useState(false)
     const [limCartas,setLimCartas] = useState(20)
     const [stateMsg, setStateMsg] = useState("")
     const [showToast, setShowToast] = useState(false);
@@ -46,7 +47,6 @@ const Carta: React.FC = () => {
               data = [...data,change.doc.data()]
               setMazos(data)
               setId(indexer)
-              console.log(data)
             }
           });
         });
@@ -56,6 +56,11 @@ const Carta: React.FC = () => {
     
     const handleSubmit = (event:any) => {
         event.preventDefault();
+        if(showMazoInput){
+            const mazoRef = addDoc(collection(db,"ColeccionMazos"),{
+                nombre: mazo,
+                uuid: user!.uid
+            })}
         console.log(pregunta, respuesta)
         //alert(`La pregunta es ${pregunta}, La respuesta es ${respuesta} y el mazo es ${mazo}`)
         const cartaRef = addDoc(collection(db,"ColeccionMazos", mazo,"Cartas"),{ //cambiar handle submit para que trabaje con nombre de mazo
@@ -68,12 +73,20 @@ const Carta: React.FC = () => {
         setLimCartas(auxLim)
         let auxString = "Puede agregar " + limCartas + " cartas hoy"
         setStateMsg(auxString)
+        setShowMazoInput(false)
         setShowToast(true)
         event.target.reset();
       }
     const cambiarMazo = (event: any) => {
-        setMazo(event)
+        if(event === true){
+            setShowMazoInput(event)
+            
+        }else{setMazo(event)}
     } 
+    const crearMazo = async (event:any) => {
+        setMazo(event)
+        event.target.reset();
+    }
     
     return (
         <IonPage color='dark'>
@@ -97,11 +110,16 @@ const Carta: React.FC = () => {
         onIonChange={(e) => setRespuesta(e.target.value as string)}> </IonInput>
         </IonItem>
             <IonItem className='mazoSelectContainer'>
-                <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione mazo" interfaceOptions={options}  onIonChange={(e) => cambiarMazo(e.detail.value)}>
+                {!showMazoInput && <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione mazo" interfaceOptions={options}  onIonChange={(e) => cambiarMazo(e.detail.value)}>
                 { mazos.map((mazo: IMazos,i: number) => (
                     <IonSelectOption key={i} value={MId[i]} class="mazo-option">{mazo.nombre}</IonSelectOption>
                     ))}
-                </IonSelect>
+                    <IonSelectOption key={"NuevoMazo"} value={true} class="mazo-option">Nuevo mazo</IonSelectOption>
+                </IonSelect>}
+                {showMazoInput && <>
+                    <IonInput className='añadirItem' required={true} spellCheck={true} autocapitalize="Sentences" type="text" placeholder="Nombre del mazo" 
+                    onIonChange={(e) => crearMazo(e.target.value as string)}></IonInput>
+                </>}
             </IonItem>
             {limCartas > 0 && <>
                 <IonButton color={"primary"} type="submit" expand="block"> Crear carta</IonButton>
