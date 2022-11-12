@@ -26,6 +26,7 @@ const Registro: React.FC = () => {
                 const userRef = await addDoc(collection(db,"ColeccionUsuarios"),{
                     username: username,
                     correo: correo,
+                    racha: 0
                 } )
                 alert("Usuario Creado");
                 console.log("id usuario : " + userRef.id);

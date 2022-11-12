@@ -1,16 +1,28 @@
 import { IonContent,IonBackButton,IonHeader,IonPage,IonTitle,IonToolbar,IonButtons, IonList, IonLabel, IonItem, IonRadioGroup, IonToggle, IonRadio, IonListHeader} from '@ionic/react';
-import { SetStateAction, useRef, useState } from 'react';
+import { getFirestore, addDoc, collection } from 'firebase/firestore';
+import { time } from 'ionicons/icons';
+import { SetStateAction, useContext, useRef, useState } from 'react';
 import '../../src/theme/Ajustes.css';
+import { AuthContext } from '../context/AuthContext';
+import firebaseapp from '../firebase/firebaseconfig';
 const Ajustes: React.FC = () => {
     const [tiempo, setTiempo] = useState("");
     const [limCartas, setLimCartas] = useState("");
+    const user = useContext(AuthContext)
+    const db = getFirestore(firebaseapp);
     const [activarTiempo, setActivarTiempo] = useState(false);
     const selectForm = useRef< null | any >(null)
 
     function handleSubmit(event:any){
         event.preventDefault();
         selectForm.current.submit();
-        alert(`El nombre del mazo es: ${tiempo}`);
+        if(user){
+        const prefRef = addDoc(collection(db,"ColeccionUsuarios", user.uid,"Preferencias"),{ //cambiar handle submit para que trabaje con nombre de mazo
+          limCartas: limCartas,
+          limTiempoActivo: activarTiempo,
+          limTiempo : tiempo
+      })}else
+        alert("Porfavor inicie sesion antes de continuar")
         } //reconstruccion del cdigo del repo local, no resetea valores.
   
 

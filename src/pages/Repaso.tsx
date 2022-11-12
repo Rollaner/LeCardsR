@@ -1,5 +1,5 @@
-import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonButton, IonButtons} from '@ionic/react';
-import {useEffect, useState } from 'react';
+import { IonBackButton, IonContent,IonHeader,IonPage,IonTitle,IonToolbar,IonButton, IonButtons, useIonViewDidEnter} from '@ionic/react';
+import {useContext, useEffect, useState } from 'react';
 import '../../src/theme/Repaso.css';
 import firebaseapp from '../firebase/firebaseconfig';
 import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, getDocs, QuerySnapshot } from "firebase/firestore";
@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import CartaComponent from '../components/CartaComponent';
 
 import MazoClass from '../class/MazoClass';
+import { AuthContext } from '../context/AuthContext';
 
 interface Iprops {
   pregunta: string;  
@@ -67,6 +68,9 @@ const Repaso: React.FC = () => {
     const [dificultad, setDificultad] = useState(0);
     const [cartaRespondida, setRespondida] = useState(false); 
     const [cartaActual, setCartaActual] = useState(0);
+    const [activarTiempo, setActivarTiempo] = useState(false);
+    const [tiempoLimite, setTiempoLimite] = useState(20);
+    const user = useContext(AuthContext)
     const [terminado, setTerminado] = useState(false);
     const [propsState, setPropsState] = useState<Iprops>({
       pregunta: "P",
@@ -80,14 +84,19 @@ const Repaso: React.FC = () => {
       (async () => {
         if(id){
           const q = query(collection(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas",));
+          const qpref = query(collection(getFirestore(firebaseapp),"ColeccionMazos",user!.uid,"Preferencias",));
+          getDocs(qpref).then((prefSnapshot)=> {
+            const prefs:any = prefSnapshot.docs.map( (doc:any) => ({...doc.data()}))
+            setActivarTiempo(prefs['limTiempoActivo'])
+            if(activarTiempo){setTiempoLimite(prefs['limTiempo'])}
+          })
           getDocs(q).then((querySnapshot) => {
             const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
             setDatosCartas(data);
             let i = 0
             datosCartas.forEach(carta => {
-              if(i == 0)
-                repasoActual = addToRepaso(carta, carta[i]['tiempo'],null)
-                repasoActual = addToRepaso(carta, carta[i]['tiempo'],repasoActual)  
+              if(i == 0){repasoActual = addToRepaso(carta, carta[i]['tiempo'],null)}
+              else {repasoActual = addToRepaso(carta, carta[i]['tiempo'],repasoActual)}
             });
             if(data[cartaActual]){
               setPropsState({
@@ -104,6 +113,13 @@ const Repaso: React.FC = () => {
       };    
     }, []);
 
+    useIonViewDidEnter(() => {
+      if(activarTiempo){
+        setTimeout(mostrarRespuesta,tiempoLimite*1000);
+      console.log('tiempo limite activo');
+      }
+    });
+
     function mostrarRespuesta(){
       setRespondida(true)
       console.log(datosCartas)
@@ -112,10 +128,6 @@ const Repaso: React.FC = () => {
         respuesta: datosCartas[cartaActual]['respuesta'],
         respondida: true
       })
-    }
-
-    function cambiarCarta(){
-
     }
 
     function resetarCarta(aux:number){ //esta tambien tiene que mover el array y cargar los datos de la nueva carta a los props
@@ -130,6 +142,10 @@ const Repaso: React.FC = () => {
         respuesta: datosCartas[cartaActual]['respuesta'],
         respondida: false
       })
+      if(activarTiempo){
+        setTimeout(mostrarRespuesta,tiempoLimite*1000);
+      console.log('tiempo limite activo');
+      }
       }
       if(i == datosCartas.length){
         setPropsState({

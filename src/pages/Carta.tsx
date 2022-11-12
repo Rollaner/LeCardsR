@@ -33,7 +33,12 @@ const Carta: React.FC = () => {
         //cargar mazos
     useEffect(() => {  (async () => { 
         if(user){ 
+        const qpref = query(collection(getFirestore(firebaseapp),"ColeccionMazos",user!.uid,"Preferencias",));
         const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
+        getDocs(qpref).then((prefSnapshot)=> {
+            const prefs:any = prefSnapshot.docs.map( (doc:any) => ({...doc.data()}))
+            setLimCartas(parseInt(prefs['limCartas']))
+          })
         const unsub = onSnapshot(q, (querySnapshot) => {
           querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
