@@ -5,7 +5,6 @@ import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import firebaseapp from '../firebase/firebaseconfig';
 import IMazos from '../interfaces/Imazo';
-import './MazoComponent.css';
 
 
 const MazoEdit: React.FC = () => {
