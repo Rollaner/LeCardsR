@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonButtons, IonBackButton } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonButtons, IonBackButton, IonAlert } from '@ionic/react';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { addDoc, arrayUnion, collection, doc, getFirestore, setDoc, updateDoc } from "firebase/firestore";
 import firebaseapp from '../firebase/firebaseconfig';
@@ -12,6 +12,9 @@ const Registro: React.FC = () => {
     const [correo, setCorreo] = useState<string>();
     const [contraseña1, setContraseña1] = useState<string>();
     const [contraseña2, setContraseña2] = useState<string>();
+    const [showAlert, setShowAlert] = useState(false);
+    const [mensajeError,setMensajeError] = useState<string>();
+
     const db = getFirestore(firebaseapp);
 
     async function handleSubmit(submition:any){
@@ -23,22 +26,45 @@ const Registro: React.FC = () => {
                 // Signed in
                 const user = userCredential.user;
                 //agregar usuario al firestore
-                const userRef = await addDoc(collection(db,"ColeccionUsuarios"),{
-                    username: username,
-                    correo: correo,
-                    racha: 0
-                } )
-                alert("Usuario Creado");
-                console.log("id usuario : " + userRef.id);
+                if(user){
+                    const userRef = await addDoc(collection(db,"ColeccionUsuarios"),{
+                        username: username,
+                        correo: correo,
+                        racha: 0
+                    } )
+                    setMensajeError("Usuario creado con exito!");
+                    setShowAlert(true);
+                }
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert("No se pudo crear el usuario\n"+ errorCode + " ; " + errorMessage);    
+                    switch(error.code){
+                        case "auth/email-already-in-use" : {
+                            setMensajeError("email ya esta ocupado");
+                            break;
+                        }
+                        case "auth/invalid-email" : {
+                            setMensajeError("E-mail invalido");
+                            break;
+                        }
+                        case "auth/operation-not-allowed" : {
+                            setMensajeError("operacion no permitida");
+                            break;
+                        }
+                        case "auth/email-already-in-use" : {
+                            setMensajeError("email ya esta ocupado");
+                            break;
+                        }
+                        case "auth/weak-password" : {
+                            setMensajeError("Contraseña muy debil");
+                            break;
+                        }
+                    }
+                    setShowAlert(true);
             });
         }
         else{
-            alert("contraseñas deben ser iguales");
+            setMensajeError("contraseñas deben ser iguales");
+            setShowAlert(true);
         }
         limpiarCampos();   
     }
@@ -77,7 +103,14 @@ const Registro: React.FC = () => {
             <IonButton type="submit">Crear usuario</IonButton>
 
         </form>
-    </div>     
+    </div>
+    <IonAlert
+        isOpen={showAlert}
+        onDidDismiss={() => setShowAlert(false)}
+        header="ERROR"
+        message={mensajeError}
+        buttons={['OK']}
+      />        
     </IonContent> 
     </IonPage>
   );

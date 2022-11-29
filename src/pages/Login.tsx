@@ -1,47 +1,56 @@
 import { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonButtons, IonBackButton } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem, IonLabel, IonButton, IonButtons, IonBackButton, IonAlert } from '@ionic/react';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import '../../src/theme/Login.css';
-import { Redirect } from 'react-router';
 import { useHistory } from 'react-router-dom';
 
 
-const Login: React.FC = () => {
-    
+const Login: React.FC = () => {    
     const [correo, setCorreo] = useState<string>();
     const [contraseña, setContraseña] = useState<string>();
+    const [showAlert, setShowAlert] = useState(false);
+    const [mensajeError,setMensajeError] = useState<string>();
+
     const history = useHistory();
     function handleSubmit(e:any){
         e.preventDefault()
         const auth = getAuth();
         signInWithEmailAndPassword(auth, correo!, contraseña!)
         .then((userCredential) => {
-            // Signed in
-            // const user = userCredential.user;
-            // const auth = getAuth();
             onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in, see docs for a list of available properties
-                // https://firebase.google.com/docs/reference/js/firebase.User
                 const uid = user.uid;
-                //alert("Has iniciado sesión \n User id :  " + uid);
-                // ...
-                //TODO 
-                // mandarlo a home con uid, o el objeto user, no se aún.
-                // luego en home armar la pagina con el uid, onda el listado de los mazos
                 history.push('/home');
-            } else {
-                // User is signed out
             }
             });
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            alert("ERROR \n " + errorCode + "\n" + errorMessage);
+            switch(error.code){
+                case "auth/wrong-password" : {
+                    setMensajeError("Contraseña incorrecta")
+                    break;
+                }
+                case "auth/invalid-email" : {
+                    setMensajeError("Correo incorrecto/no valido")
+                    break;
+                }
+                case "auth/user-disabled" : {
+                    setMensajeError("Usuario bloqueado")
+                    break;
+                }
+                case "auth/user-not-found" : {
+                    setMensajeError("Usuario no encontrado")
+                    break;
+                }
+            }
+            setShowAlert(true)
+            limpiarCampos();
         });
     }
-
+    function limpiarCampos(){
+        setCorreo("");
+        setContraseña("");
+    }
     return(
     <IonPage color="dark">
     <IonHeader>
@@ -52,7 +61,6 @@ const Login: React.FC = () => {
             </IonButtons>
         </IonToolbar>
     </IonHeader>
-
     <IonContent fullscreen color={'medium'}>
     <div className="loginContainer">
         <form onSubmit={handleSubmit}>
@@ -69,14 +77,15 @@ const Login: React.FC = () => {
         </div> 
         </form>   
     </div>
+    <IonAlert
+        isOpen={showAlert}
+        onDidDismiss={() => setShowAlert(false)}
+        header="ERROR"
+        message={mensajeError}
+        buttons={['OK']}
+      />    
     </IonContent> 
-    
     </IonPage>
-
   );
 };
-
 export default Login;
-
-
-
