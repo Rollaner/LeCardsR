@@ -114,7 +114,7 @@ const Carta: React.FC = () => {
                 { mazos.map((mazo: IMazos,i: number) => (
                     <IonSelectOption key={i} value={MId[i]} class="mazo-option">{mazo.nombre}</IonSelectOption>
                     ))}
-                    <IonSelectOption key={"NuevoMazo"} value={true} class="mazo-option">Nuevo mazo</IonSelectOption>
+                    <IonSelectOption key={"NuevoMazo"} value={true} class="mazo-option">Crear nuevo mazo</IonSelectOption>
                 </IonSelect>}
                 {showMazoInput && <>
                     <IonInput className='añadirItem' required={true} spellCheck={true} autocapitalize="Sentences" type="text" placeholder="Nombre del mazo" 
