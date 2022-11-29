@@ -1,5 +1,7 @@
 import { IonAlert, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
-import { collection, getDocs, getFirestore, where, query, addDoc, onSnapshot } from 'firebase/firestore';
+import { cleanup } from '@testing-library/react';
+import { SlowBuffer } from 'buffer';
+import { collection, getDocs, getFirestore, where, query, addDoc, onSnapshot, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { options } from 'ionicons/icons';
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
@@ -20,17 +22,19 @@ const MazoEdit: React.FC = () => {
     const db = getFirestore(firebaseapp);
 
 
+
     useEffect(() => {  (async () => { 
         if(user){ 
         const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
         const unsub = onSnapshot(q, (querySnapshot) => {
           querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
-                indexer = [...indexer, change.doc.id]
-                data = [...data,change.doc.data()]
-                setMazos(data)
-                setId(indexer)
-              console.log(data)
+                if(indexer.indexOf(change.doc.id) === -1){
+                  indexer = [...indexer, change.doc.id]
+                  data = [...data,change.doc.data()]
+                  setMazos(data)
+                  setId(indexer)
+                }
             }
           });
         });
@@ -40,28 +44,28 @@ const MazoEdit: React.FC = () => {
 
 
     const handleSelect = (event:any) => {
-        event.preventDefault();
         setMazo(event)
         setSelected(true)
     } 
 
-    const handleSubmit = (event:any) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
-        setMazo(event)
-        //editar datos firebase
+        var aux = doc(db,"ColeccionMazos", mazo);
+        await updateDoc(aux, {
+          nombre: nombre
+        });
         setSelected(false)
     } 
 
-    const handleDelete = () => {
-        //eliminar mazo firebase
-
+    const handleDelete = async () => {
+        await deleteDoc(doc(db,"ColeccionMazos", mazo));
     }
     
     return(
         <IonPage color="dark">
       <IonHeader>
                 <IonToolbar color="dark">
-                    <IonTitle size="large" color={'primary'}>Nuevo Mazo</IonTitle>
+                    <IonTitle size="large" color={'primary'}>Administrar Mazos</IonTitle>
                     <IonButtons slot="start" color='medium'>
                     <IonBackButton/>
                     </IonButtons>
@@ -70,7 +74,6 @@ const MazoEdit: React.FC = () => {
       
       <IonContent fullscreen color={'medium'}>
       <IonItem className='mazoSelectContainer'>
-
                 <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione mazo para editar" interfaceOptions={options}  onIonChange={(e) => handleSelect(e.detail.value)}>
                 { mazos.map((mazo: IMazos,i: number) => (
                     <IonSelectOption key={i} value={MId[i]} class="mazo-option">{mazo.nombre}</IonSelectOption>
@@ -81,7 +84,7 @@ const MazoEdit: React.FC = () => {
         <form  onSubmit={handleSubmit}>
             <IonList lines="full">
         <IonItem color="medium">
-        <IonInput  className='añadirItem' required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Pregunta" placeholder="Pregunta" 
+        <IonInput  className='añadirItem' required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Nombre" placeholder="Nombre" 
         onIonChange={(e) => setNombre(e.target.value as string)}> </IonInput>
         </IonItem>
         </IonList>
@@ -107,6 +110,7 @@ const MazoEdit: React.FC = () => {
                   },
               },]}
         />
+        <IonButton color={"primary"} type="submit" expand="block"> Editar mazo </IonButton>
         </form>
         </>}
       </IonContent>

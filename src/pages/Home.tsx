@@ -34,10 +34,12 @@ const Home: React.FC =  () => {
       const unsub = onSnapshot(q, (querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
-            indexer = [...indexer, change.doc.id]
-            data = [...data,change.doc.data()]
-            setMazos(data);
-            setId(indexer)
+            if(indexer.indexOf(change.doc.id) === -1){
+              indexer = [...indexer, change.doc.id]
+              data = [...data,change.doc.data()]
+              setMazos(data)
+              setId(indexer)
+            }  
           }
         });
       });
