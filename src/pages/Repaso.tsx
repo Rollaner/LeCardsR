@@ -58,15 +58,12 @@ function addToRepaso(data:any, tiempo:number, head:repasoList | null ):repasoLis
   
 }
 
-///interfaz carta: tiene que sedr un finger tree o zipper
-
 const Repaso: React.FC = () => {
     const { id } = useParams<mazoLoad>()
     let repasoActual:repasoList //head del struct
-    //let mrepaso = new MazoRepaso("activo",id)
     const [datosCartas, setDatosCartas] = useState([])
     const [cartaRespondida, setRespondida] = useState(false); 
-    const [cartaActual, setCartaActual] = useState(0);
+    const [cartaActual, setCartaActual] = useState(0); //index de la carta actual
     const [activarTiempo, setActivarTiempo] = useState(false);
     const [tiempoLimite, setTiempoLimite] = useState(20);
     const user = useContext(AuthContext)
@@ -130,18 +127,15 @@ const Repaso: React.FC = () => {
       })
     }
 
-    function resetarCarta(aux:number){ //esta tambien tiene que mover el array y cargar los datos de la nueva carta a los props
+    async function resetarCarta(aux:number){ //esta tambien tiene que mover el array y cargar los datos de la nueva carta a los props
       setRespondida(false)
       let i = cartaActual
       while (i < datosCartas.length){
-      let tiempo = datosCartas[cartaActual]['cooldown']*aux
-      //actualizar cooldown de la carta
-
-      /*var updater = doc(data,"ColeccionMazos", mazo);
+      let espaciado = datosCartas[cartaActual]['cooldown']*aux
+      var updater = doc(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas",datosCartas[cartaActual][id]);
         await updateDoc(updater, {
-          nombre: nombre //ver como acceder acartas individuales ss
-        });*/
-
+          cooldown: espaciado
+        });  
       setCartaActual( i++)
       setCurrentTime(Date.now) //conseguir tiempo actual
       //comparar t actual con t de creacion de la carta + cooldown

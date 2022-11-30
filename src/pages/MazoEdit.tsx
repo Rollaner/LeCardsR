@@ -10,7 +10,8 @@ import IMazos from '../interfaces/Imazo';
 
 
 const MazoEdit: React.FC = () => {
-    let indexer:any = []
+    let indexer:any = [] //para guardar los ID de los mazos, asi no reescribo el codigo, al no ser un 
+    //query snapshot map no funciona
     let data:any = []
     const [selected,setSelected] = useState(false)
     const [del, setDel] = useState(false)

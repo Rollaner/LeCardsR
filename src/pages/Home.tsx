@@ -15,7 +15,8 @@ import IMazos from "../interfaces/Imazo";
 
 const Home: React.FC =  () => {
   let data:any = []
-  let indexer:any = []
+  let indexer:any = [] //para guardar los ID de los mazos, asi no reescribo el codigo, al no ser un 
+  //query snapshot map no funciona
   let propAux:IMazos 
   const [MId,setId] = useState([])
   const [mazos, setMazos] = useState([])

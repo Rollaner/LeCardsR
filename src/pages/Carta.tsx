@@ -12,7 +12,8 @@ import IMazos from '../interfaces/Imazo';
   };
 const Carta: React.FC = () => {
     let data:any = []
-    let indexer:any = []
+    let indexer:any = [] //para guardar los ID de las cartas, asi no reescribo el codigo, al no ser un 
+    //query snapshot map no funciona
     const [showMazoInput, setShowMazoInput] = useState(false)
     const [limCartas,setLimCartas] = useState(20)
     const [stateMsg, setStateMsg] = useState("")
@@ -68,7 +69,7 @@ const Carta: React.FC = () => {
             pregunta : pregunta,
             respuesta : respuesta,
             tiempo : time, //fecha de cracion
-            cooldown: 15000 //timer ss
+            cooldown: 15000 //timer 
         })
         let auxLim = limCartas
         auxLim--
