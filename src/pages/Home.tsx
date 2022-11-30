@@ -96,21 +96,21 @@ const Home: React.FC =  () => {
                     <React.Fragment key={i}><MazoComponent {...propAux = {nombre: mazo.nombre, id: MId[i]}}></MazoComponent></React.Fragment>))}
             </IonList>
             <IonFab vertical="bottom" horizontal="start" slot="fixed">
-          <IonFabButton routerLink="/edeck" title="Editar Mazo">
-            <IonIcon icon={add}></IonIcon>
+          <IonFabButton routerLink="/edeck"  color='transparent' title="Editar mazo">
+            <IonIcon className='edit-icon' icon={add}></IonIcon>
           </IonFabButton>
         </IonFab> 
 
             <IonFab vertical="bottom" horizontal="end" slot="fixed">
-          <IonFabButton title="Nuevo">
+          <IonFabButton className='nuevo-icon' title="Agregar">
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
           <IonFabList side="top">
-            <IonFabButton className="popover-button" routerLink="/ncard">
-              <IonIcon icon={add} color="dark"></IonIcon>
+            <IonFabButton className="popover-button-card" color='transparent' routerLink="/ncard" title='Agregar carta'>
+              <IonIcon className="card-icon" icon={add} color="dark"></IonIcon>
             </IonFabButton>
-            <IonFabButton className="popover-button" routerLink="/ndeck">
-              <IonIcon icon={add} color="dark"></IonIcon>
+            <IonFabButton className="popover-button-deck" color="transparent" routerLink="/ndeck" title='Agregar mazo'>
+              <IonIcon className='deck-icon' icon={add} color="dark"></IonIcon>
             </IonFabButton>
           </IonFabList>
         </IonFab> 
