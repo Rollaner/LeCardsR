@@ -8,9 +8,41 @@ ion-fab-button::part(native) {
     color: black;
   }
 
-.popover-button{
+
+.popover-button-deck{
     margin-bottom: 6px;
 } 
+
+.popover-button-card{
+    margin-bottom: 6px;
+    
+}
+
+.edit-icon{
+    content: url("../images/edit.png") !important;
+    font-size: 56px;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,.3), 0px 1px 3px 1px rgba(0,0,0,.15);
+    color: black;
+}
+
+
+.card-icon{
+    content: url("../images/cartas.png") !important;
+    font-size: 40px;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,.3), 0px 1px 3px 1px rgba(0,0,0,.15);
+    color: black;
+}
+
+.deck-icon{
+    content: url("../images/mazo.png") !important;
+    font-size: 40px;
+    box-shadow: 0px 1px 2px 0px rgba(0,0,0,.3), 0px 1px 3px 1px rgba(0,0,0,.15);
+    color: black;
+}
+
+.nuevo-icon{
+    border-color: blue;
+}
 
 ion-title {
     margin-left: 15px;
