@@ -29,7 +29,7 @@ const MazoEdit: React.FC = () => {
         const unsub = onSnapshot(q, (querySnapshot) => {
           querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
-                if(indexer.indexOf(change.doc.id) === -1){
+                if(indexer.indexOf(change.doc.id) === -1){ 
                   indexer = [...indexer, change.doc.id]
                   data = [...data,change.doc.data()]
                   setMazos(data)

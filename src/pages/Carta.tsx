@@ -24,7 +24,7 @@ const Carta: React.FC = () => {
     const [respuesta, setRespuesta] = useState("");
     const user = useContext(AuthContext)
     const db = getFirestore(firebaseapp);
-    const time:number = 15
+    var time:any  
     useIonViewDidLeave(() =>{
         setPregunta("Placeholder")
         setMazo("Placeholder")
@@ -63,10 +63,12 @@ const Carta: React.FC = () => {
             })}
         console.log(pregunta, respuesta)
         //alert(`La pregunta es ${pregunta}, La respuesta es ${respuesta} y el mazo es ${mazo}`)
+        time = Date.now()
         const cartaRef = addDoc(collection(db,"ColeccionMazos", mazo,"Cartas"),{ //cambiar handle submit para que trabaje con nombre de mazo
             pregunta : pregunta,
             respuesta : respuesta,
-            tiempo : time
+            tiempo : time, //fecha de cracion
+            cooldown: 15000 //timer ss
         })
         let auxLim = limCartas
         auxLim--

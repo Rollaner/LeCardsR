@@ -65,13 +65,13 @@ const Repaso: React.FC = () => {
     let repasoActual:repasoList //head del struct
     //let mrepaso = new MazoRepaso("activo",id)
     const [datosCartas, setDatosCartas] = useState([])
-    const [dificultad, setDificultad] = useState(0);
     const [cartaRespondida, setRespondida] = useState(false); 
     const [cartaActual, setCartaActual] = useState(0);
     const [activarTiempo, setActivarTiempo] = useState(false);
     const [tiempoLimite, setTiempoLimite] = useState(20);
     const user = useContext(AuthContext)
     const [terminado, setTerminado] = useState(false);
+    const [currentTime, setCurrentTime] = useState(Date.now())
     const [propsState, setPropsState] = useState<Iprops>({
       pregunta: "P",
       respuesta: "R",
@@ -79,7 +79,7 @@ const Repaso: React.FC = () => {
     });
     const handleSubmit = (event:any) => {
       event.preventDefault();
-      alert(`The name you entered was: ${dificultad}`)}
+    console.log("Error de lógica, porfavor reinicie la aplicación")}
     useEffect(() => {  //esto llama a la funcion apenas se carga el componente
       (async () => {
         if(id){
@@ -95,8 +95,8 @@ const Repaso: React.FC = () => {
             setDatosCartas(data);
             let i = 0
             datosCartas.forEach(carta => {
-              if(i == 0){repasoActual = addToRepaso(carta, carta[i]['tiempo'],null)}
-              else {repasoActual = addToRepaso(carta, carta[i]['tiempo'],repasoActual)}
+              if(i == 0){repasoActual = addToRepaso(carta, carta[i]['cooldown'],null)}
+              else {repasoActual = addToRepaso(carta, carta[i]['cooldown'],repasoActual)}
             });
             if(data[cartaActual]){
               setPropsState({
@@ -134,9 +134,25 @@ const Repaso: React.FC = () => {
       setRespondida(false)
       let i = cartaActual
       while (i < datosCartas.length){
-      let tiempo = datosCartas[cartaActual]['tiempo']*aux
-      //actualizar tiempo de la carta
+      let tiempo = datosCartas[cartaActual]['cooldown']*aux
+      //actualizar cooldown de la carta
+
+      /*var updater = doc(data,"ColeccionMazos", mazo);
+        await updateDoc(updater, {
+          nombre: nombre //ver como acceder acartas individuales ss
+        });*/
+
       setCartaActual( i++)
+      setCurrentTime(Date.now) //conseguir tiempo actual
+      //comparar t actual con t de creacion de la carta + cooldown
+      if(datosCartas[cartaActual]['cooldown'] + datosCartas[cartaActual]['tiempo'] > currentTime){
+        setPropsState({
+          pregunta: "",
+          respuesta: "",
+          respondida: false})
+          setTerminado(true)
+          break
+      }
       setPropsState({
         pregunta: datosCartas[cartaActual]['pregunta'],
         respuesta: datosCartas[cartaActual]['respuesta'],
