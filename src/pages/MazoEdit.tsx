@@ -1,8 +1,7 @@
 import { IonAlert, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonList, IonPage, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/react';
-import { cleanup } from '@testing-library/react';
-import { SlowBuffer } from 'buffer';
 import { collection, getDocs, getFirestore, where, query, addDoc, onSnapshot, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { options } from 'ionicons/icons';
+import '../../src/theme/MazoEdit.css';
 import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import firebaseapp from '../firebase/firebaseconfig';
@@ -89,7 +88,10 @@ const MazoEdit: React.FC = () => {
         onIonChange={(e) => setNombre(e.target.value as string)}> </IonInput>
         </IonItem>
         </IonList>
-        <IonButton color={"danger"} type="button" onClick={() => setDel(true)} expand="block"> Eliminar mazo </IonButton>
+        <IonButton color={"primary"} type="submit" expand="block"> Editar mazo </IonButton>
+        <div className="delete-Button">
+        <IonButton  color={"danger"} type="button" onClick={() => setDel(true)} expand="block"> Eliminar mazo </IonButton>
+        </div>
         <IonAlert
             isOpen={del}
             onDidDismiss={() => setDel(false)}
@@ -111,7 +113,6 @@ const MazoEdit: React.FC = () => {
                   },
               },]}
         />
-        <IonButton color={"primary"} type="submit" expand="block"> Editar mazo </IonButton>
         </form>
         </>}
       </IonContent>

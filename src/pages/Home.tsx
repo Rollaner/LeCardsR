@@ -96,9 +96,17 @@ const Home: React.FC =  () => {
                     <React.Fragment key={i}><MazoComponent {...propAux = {nombre: mazo.nombre, id: MId[i]}}></MazoComponent></React.Fragment>))}
             </IonList>
             <IonFab vertical="bottom" horizontal="start" slot="fixed">
-          <IonFabButton routerLink="/edeck" title="Editar Mazo">
+          <IonFabButton title="Editar">
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
+          <IonFabList side="top">
+          <IonFabButton className="popover-button" routerLink="/edeck" >
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>  
+          <IonFabButton className="popover-button" routerLink="/ecard">
+              <IonIcon icon={add} color="dark"></IonIcon>
+            </IonFabButton>
+          </IonFabList>
         </IonFab> 
 
             <IonFab vertical="bottom" horizontal="end" slot="fixed">

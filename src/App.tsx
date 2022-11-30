@@ -28,8 +28,8 @@ import Repaso from './pages/Repaso';
 import Login from './pages/Login';
 import Registro from './pages/registro';
 import { useState } from 'react';
-import Bienvenida from './pages/Bienvenida';
 import MazoEdit from './pages/MazoEdit';
+import CartaEdit from './pages/CartaEdit';
 
 setupIonicReact();
 
@@ -54,6 +54,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/edeck">
           <MazoEdit/>
+        </Route>
+        <Route exact path="/ecard">
+          <CartaEdit/>
         </Route>
         <Route exact path="/preferences">
           <Ajustes />

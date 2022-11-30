@@ -68,7 +68,7 @@ const Carta: React.FC = () => {
         const cartaRef = addDoc(collection(db,"ColeccionMazos", mazo,"Cartas"),{ //cambiar handle submit para que trabaje con nombre de mazo
             pregunta : pregunta,
             respuesta : respuesta,
-            tiempo : time, //fecha de cracion
+            tiempo : time, //fecha de creacion
             cooldown: 15000 //timer 
         })
         let auxLim = limCartas
