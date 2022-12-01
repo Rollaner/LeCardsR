@@ -96,15 +96,15 @@ const Home: React.FC =  () => {
                     <React.Fragment key={i}><MazoComponent {...propAux = {nombre: mazo.nombre, id: MId[i]}}></MazoComponent></React.Fragment>))}
             </IonList>
             <IonFab vertical="bottom" horizontal="start" slot="fixed">
-          <IonFabButton  color='transparent' title="Editar">
-            <IonIcon className='edit-icon' icon={add}></IonIcon>
+          <IonFabButton  className='create-outline' title="Editar">
+            <IonIcon className='edit-icon'  icon={add}></IonIcon>
           </IonFabButton>
           <IonFabList side="top">
-          <IonFabButton className="popover-button" routerLink="/edeck" >
-            <IonIcon icon={add}></IonIcon>
+          <IonFabButton className="popover-button-edeck" routerLink="/edeck" >
+            <IonIcon className="edeck-icon"></IonIcon>
           </IonFabButton>  
-          <IonFabButton className="popover-button" routerLink="/ecard">
-              <IonIcon icon={add} color="dark"></IonIcon>
+          <IonFabButton className="popover-button-ecard" routerLink="/ecard">
+              <IonIcon className="ecard-icon"></IonIcon>
             </IonFabButton>
           </IonFabList>
         </IonFab> 
@@ -114,11 +114,11 @@ const Home: React.FC =  () => {
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
           <IonFabList side="top">
-            <IonFabButton className="popover-button-card" color='transparent' routerLink="/ncard" title='Agregar carta'>
-              <IonIcon className="card-icon" icon={add} color="dark"></IonIcon>
+            <IonFabButton className="popover-button-card"  routerLink="/ncard" title='Agregar carta'>
+              <IonIcon className="card-icon"></IonIcon>
             </IonFabButton>
-            <IonFabButton className="popover-button-deck" color="transparent" routerLink="/ndeck" title='Agregar mazo'>
-              <IonIcon className='deck-icon' icon={add} color="dark"></IonIcon>
+            <IonFabButton className="popover-button-deck"  routerLink="/ndeck" title='Agregar mazo'>
+              <IonIcon className='deck-icon'></IonIcon>
             </IonFabButton>
           </IonFabList>
         </IonFab> 
