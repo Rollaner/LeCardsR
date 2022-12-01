@@ -2,7 +2,6 @@ ion-icon{
     font-size: 36px;
 }
 
-
 ion-fab-list{
     margin-bottom: 55px;
 }
@@ -14,6 +13,7 @@ ion-fab-button::part(native) {
 
 .popover-button-edeck{
     margin-bottom: 6px;
+    
 } 
 
 .popover-button-ecard{
@@ -29,7 +29,6 @@ ion-fab-button::part(native) {
     margin-bottom: 6px;
     
 }
-
 
 .edit-icon{
     content: url("../images/edit.png") !important;
