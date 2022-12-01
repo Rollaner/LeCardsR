@@ -11,6 +11,10 @@
     --ion-padding:1%
 }
 
+.ion-label.ion-text-center{
+    padding: 0;
+}
+
 @media only screen and (min-width: 992px) {
         .MazoComponent{
             display: flexbox;

@@ -29,13 +29,15 @@ const Mazo: React.FC = () => {
 
     const db = getFirestore(firebaseapp);    
     
+    //Agregar mazo nuevo al firestore
     const handleSubmit = async (event:any) => {
         event.preventDefault();
         // console.log(nombre);
         // alert(`El nombre del mazo es: ${nombre}  el usuario es : ${uid}`);
         const mazoRef = await addDoc(collection(db,"ColeccionMazos"),{
             nombre: nombre,
-            uuid: uid
+            uuid: uid,
+            maximocartas: 25 //MAXIMO HARDCODEADO INICIAL
         })
         event.target.reset();
         history.push('/home');

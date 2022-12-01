@@ -6,12 +6,14 @@ import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import firebaseapp from '../firebase/firebaseconfig';
 import IMazos from '../interfaces/Imazo';
+import { useHistory } from 'react-router-dom';
 
 
 const MazoEdit: React.FC = () => {
     let indexer:any = [] //para guardar los ID de los mazos, asi no reescribo el codigo, al no ser un 
     //query snapshot map no funciona
     let data:any = []
+    const history = useHistory();
     const [selected,setSelected] = useState(false)
     const [del, setDel] = useState(false)
     const [mazos, setMazos] = useState([])
@@ -22,7 +24,7 @@ const MazoEdit: React.FC = () => {
     const db = getFirestore(firebaseapp);
 
 
-
+    //cargar mazos del usuario loggeado
     useEffect(() => {  (async () => { 
         if(user){ 
         const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
@@ -42,12 +44,13 @@ const MazoEdit: React.FC = () => {
       })();
     }, [user]);
 
-
+    //Seleccionar mazo
     const handleSelect = (event:any) => {
         setMazo(event)
         setSelected(true)
     } 
 
+    //Actualizar Carta
     const handleSubmit = async (event:any) => {
         event.preventDefault();
         var aux = doc(db,"ColeccionMazos", mazo);
@@ -55,8 +58,10 @@ const MazoEdit: React.FC = () => {
           nombre: nombre
         });
         setSelected(false)
+        history.push('/home')
     } 
 
+    //borrar carta
     const handleDelete = async () => {
         await deleteDoc(doc(db,"ColeccionMazos", mazo));
     }

@@ -1,5 +1,5 @@
 import { IonBackButton,IonButton,IonButtons,IonInput, IonList, IonContent,IonHeader,IonPage,IonTitle,IonToolbar, useIonViewDidLeave, IonItem, IonSelect, IonSelectOption, IonToast} from '@ionic/react';
-import { collection, getDocs, getFirestore, where, query, addDoc, onSnapshot } from 'firebase/firestore';
+import { collection, getDocs, getFirestore, where, query, addDoc, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import '../../src/theme/Carta.css';
 import { AuthContext } from '../context/AuthContext';
@@ -15,7 +15,7 @@ const Carta: React.FC = () => {
     let indexer:any = [] //para guardar los ID de las cartas, asi no reescribo el codigo, al no ser un 
     //query snapshot map no funciona
     const [showMazoInput, setShowMazoInput] = useState(false)
-    const [limCartas,setLimCartas] = useState(20)
+    const [maximoDiario,setMaximoDiario] = useState(25)
     const [stateMsg, setStateMsg] = useState("")
     const [showToast, setShowToast] = useState(false);
     const [MId,setId] = useState([])
@@ -31,15 +31,14 @@ const Carta: React.FC = () => {
         setMazo("Placeholder")
         setRespuesta("Placeholder")
     });
-
-        //cargar mazos
+    //cargar mazos
     useEffect(() => {  (async () => { 
         if(user){ 
-        const qpref = query(collection(getFirestore(firebaseapp),"ColeccionMazos",user!.uid,"Preferencias",));
+        const qpref = query(collection(db,"ColeccionMazos",user!.uid,));
         const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
         getDocs(qpref).then((prefSnapshot)=> {
-            const prefs:any = prefSnapshot.docs.map( (doc:any) => ({...doc.data()}))
-            setLimCartas(parseInt(prefs['limCartas']))
+            const prefs:any = prefSnapshot.docs.map( (doc:any) => ({...doc.data()})) //depurar
+            setMaximoDiario(parseInt(prefs['limCartas']))
           })
         const unsub = onSnapshot(q, (querySnapshot) => {
           querySnapshot.docChanges().forEach((change) => {
@@ -55,15 +54,16 @@ const Carta: React.FC = () => {
       })();
     }, [user]);
     
-    const handleSubmit = (event:any) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
+        //añadir mazo nuevo si es que no existe
         if(showMazoInput){
             const mazoRef = addDoc(collection(db,"ColeccionMazos"),{
                 nombre: mazo,
-                uuid: user!.uid
+                uuid: user!.uid,
+                maximocartas: maximoDiario 
             })}
         console.log(pregunta, respuesta)
-        //alert(`La pregunta es ${pregunta}, La respuesta es ${respuesta} y el mazo es ${mazo}`)
         time = Date.now()
         const cartaRef = addDoc(collection(db,"ColeccionMazos", mazo,"Cartas"),{ //cambiar handle submit para que trabaje con nombre de mazo
             pregunta : pregunta,
@@ -71,15 +71,19 @@ const Carta: React.FC = () => {
             tiempo : time, //fecha de creacion
             cooldown: 15000 //timer 
         })
-        let auxLim = limCartas
+        let auxLim = maximoDiario
         auxLim--
-        setLimCartas(auxLim)
-        let auxString = "Puede agregar " + limCartas + " cartas hoy"
+        setMaximoDiario(auxLim)
+        let auxString = "Puede agregar " + maximoDiario + " cartas hoy"
         setStateMsg(auxString)
         setShowMazoInput(false)
         setShowToast(true)
         event.target.reset();
       }
+
+    const resetearLim = () => {
+        console.log('limite diario')
+    }
     const cambiarMazo = (event: any) => {
         if(event === true){
             setShowMazoInput(event)
@@ -90,7 +94,6 @@ const Carta: React.FC = () => {
         setMazo(event)
         event.target.reset();
     }
-    
     return (
         <IonPage color='dark'>
             <IonHeader>
@@ -124,7 +127,7 @@ const Carta: React.FC = () => {
                     onIonChange={(e) => crearMazo(e.target.value as string)}></IonInput>
                 </>}
             </IonItem>
-            {limCartas > 0 && <>
+         {maximoDiario > 0 && <>
                 <IonButton color={"primary"} type="submit" expand="block"> Crear carta</IonButton>
                 <IonToast
                 isOpen={showToast}
@@ -132,8 +135,8 @@ const Carta: React.FC = () => {
                 message= {stateMsg}
                 duration={1500}
                 />
-            </>}
-            {limCartas <= 0 && <>
+        </>}
+         {maximoDiario <= 0 && <>
                 <IonButton color={"primary"} disabled={true} type="submit" expand="block"> Crear carta </IonButton>
                 <IonToast
                 isOpen={showToast}
@@ -141,10 +144,10 @@ const Carta: React.FC = () => {
                 message="Ha alcanzado el limite de cartas nuevas por hoy, vuelva mañana"
                 duration={1500}
                 />
-            </>}
-            </IonList>
-            </form>
-            </IonContent>
+        </>}
+        </IonList>
+        </form>
+        </IonContent>
         </IonPage>
     );
 }

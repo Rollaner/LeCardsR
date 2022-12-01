@@ -26,7 +26,15 @@ const Home: React.FC =  () => {
   const [racha,setRacha] = useState(0)
   const [userRecord,setUserRecord] = useState(5)
   let faltantes = racha - userRecord
- 
+  let today = new Date()
+    today.setHours(0,0,0,0)
+  let lastAccess = new Date()
+  lastAccess.setTime(Date.now())
+  if(today > lastAccess){
+    console.log("exito")
+  }
+
+  //Cargar datos del usuario loggeado
   useEffect(() => {  (async () => { 
       if(user){ 
        //console.log(user);
@@ -48,18 +56,10 @@ const Home: React.FC =  () => {
     })();
   }, [user]);
 
- /* async function getMazosDesdeFirebase(uid:String){
-      const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user?.uid));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) =>{
-        console.log(doc.id + " =  " + doc.get("nombre") );
-        Mazos.push(new MazoClass(doc.get("nombre"),doc.id));
-      })
-  }*/
-
   function logout(){
     auth.signOut();
   }
+
   return (
     <IonPage color="dark">
       <IonHeader>

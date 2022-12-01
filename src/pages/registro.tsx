@@ -28,7 +28,7 @@ const Registro: React.FC = () => {
                 //agregar usuario al firestore
                 if(user){
                     const userRef = await addDoc(collection(db,"ColeccionUsuarios"),{
-                        username: username,
+                        username: correo,
                         correo: correo,
                         racha: 0
                     } )

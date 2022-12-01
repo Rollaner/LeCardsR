@@ -81,12 +81,10 @@ const Repaso: React.FC = () => {
       (async () => {
         if(id){
           const q = query(collection(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas",));
-          const qpref = query(collection(getFirestore(firebaseapp),"ColeccionMazos",user!.uid,"Preferencias",));
-          getDocs(qpref).then((prefSnapshot)=> {
-            const prefs:any = prefSnapshot.docs.map( (doc:any) => ({...doc.data()}))
-            setActivarTiempo(prefs['limTiempoActivo'])
-            if(activarTiempo){setTiempoLimite(prefs['limTiempo'])}
-          })
+          const qpref = await getDoc(doc(getFirestore(firebaseapp),"ColeccionMazos",user!.uid));
+          const docSnap = qpref.data();
+            setActivarTiempo(docSnap!['limTiempoActivo'])
+            if(activarTiempo){setTiempoLimite(docSnap!['limTiempo'])}
           getDocs(q).then((querySnapshot) => {
             const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
             setDatosCartas(data);
