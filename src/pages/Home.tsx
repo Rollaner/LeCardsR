@@ -100,10 +100,10 @@ const Home: React.FC =  () => {
             <IonIcon className='edit-icon'  icon={add}></IonIcon>
           </IonFabButton>
           <IonFabList side="top">
-          <IonFabButton className="popover-button-edeck" routerLink="/edeck" >
+          <IonFabButton className="popover-button-edeck" routerLink="/edeck" title='Editar mazo'>
             <IonIcon className="edeck-icon"></IonIcon>
           </IonFabButton>  
-          <IonFabButton className="popover-button-ecard" routerLink="/ecard">
+          <IonFabButton className="popover-button-ecard" routerLink="/ecard" title='Editar carta'>
               <IonIcon className="ecard-icon"></IonIcon>
             </IonFabButton>
           </IonFabList>
