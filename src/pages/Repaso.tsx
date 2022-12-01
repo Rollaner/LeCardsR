@@ -5,8 +5,6 @@ import firebaseapp from '../firebase/firebaseconfig';
 import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, getDocs, QuerySnapshot } from "firebase/firestore";
 import { useParams } from 'react-router-dom'
 import CartaComponent from '../components/CartaComponent';
-
-import MazoClass from '../class/MazoClass';
 import { AuthContext } from '../context/AuthContext';
 
 interface Iprops {
@@ -15,21 +13,23 @@ interface Iprops {
   respondida: boolean;  
 }
 type mazoLoad = {id: string}
-class MazoRepaso extends MazoClass {
+class MazoRepaso {
   public  cartas:any[] = []
 }
 
 interface repasoList {
   data:any;
   tiempo: number;
+  id: string,
   siguiente: repasoList | null 
 }
 
-function addToRepaso(data:any, tiempo:number, head:repasoList | null ):repasoList {
+function addToRepaso(data:any, tiempo:number, head:repasoList | null,id:string ):repasoList {
   if(!head){
     let newHead:repasoList = {
       data:data,
       tiempo: tiempo,
+      id: id,
       siguiente: null 
     }
     return newHead
@@ -38,6 +38,7 @@ function addToRepaso(data:any, tiempo:number, head:repasoList | null ):repasoLis
   let newHead:repasoList = {
       data:data,
       tiempo: tiempo,
+      id: id,
       siguiente: head 
     }
     return newHead
@@ -45,17 +46,23 @@ function addToRepaso(data:any, tiempo:number, head:repasoList | null ):repasoLis
     let node:repasoList = {
       data:data,
       tiempo: tiempo,
+      id: id,
       siguiente: null
     }
     if(head.siguiente == null){
       head.siguiente = node
     }else{
       let aux = head.siguiente
-      head.siguiente = addToRepaso(data,tiempo,aux)
+      head.siguiente = addToRepaso(data,tiempo,aux,id)
     }
     return head
   }  
   
+}
+
+interface prefLoader {
+  limTiempoActivo:boolean
+  limTiempo:string
 }
 
 const Repaso: React.FC = () => {
@@ -77,21 +84,23 @@ const Repaso: React.FC = () => {
     const handleSubmit = (event:any) => {
       event.preventDefault();
     console.log("Error de lógica, porfavor reinicie la aplicación")}
+
     useEffect(() => {  //esto llama a la funcion apenas se carga el componente
       (async () => {
         if(id){
-          const q = query(collection(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas",));
-          const qpref = await getDoc(doc(getFirestore(firebaseapp),"ColeccionMazos",user!.uid));
-          const docSnap = qpref.data();
-            setActivarTiempo(docSnap!['limTiempoActivo'])
-            if(activarTiempo){setTiempoLimite(docSnap!['limTiempo'])}
+          const q = query(collection(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas"));
+          const qpref = doc(getFirestore(firebaseapp),"ColeccionMazos",user!.uid);
+          const docSnap = await getDoc(qpref);
+            setActivarTiempo(docSnap.get("limTiempoActivo"))
+            if(activarTiempo){setTiempoLimite(docSnap.get("limTiempo"))}
           getDocs(q).then((querySnapshot) => {
             const data:any = querySnapshot.docs.map( (doc:any) => ({ ...doc.data(), id: doc.id }))
             setDatosCartas(data);
             let i = 0
             datosCartas.forEach(carta => {
-              if(i == 0){repasoActual = addToRepaso(carta, carta[i]['cooldown'],null)}
-              else {repasoActual = addToRepaso(carta, carta[i]['cooldown'],repasoActual)}
+              console.log(carta,carta[i],data[i].id)
+              if(i == 0){repasoActual = addToRepaso(carta, carta[i]['cooldown'],null,data[i].id)}
+              else {repasoActual = addToRepaso(carta, carta[i]['cooldown'],repasoActual,data[i].id)}
             });
             if(data[cartaActual]){
               setPropsState({
@@ -130,7 +139,7 @@ const Repaso: React.FC = () => {
       let i = cartaActual
       while (i < datosCartas.length){
       let espaciado = datosCartas[cartaActual]['cooldown']*aux
-      var updater = doc(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas",datosCartas[cartaActual][id]);
+      var updater = doc(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas",datosCartas[cartaActual]["id"]);
         await updateDoc(updater, {
           cooldown: espaciado
         });  

@@ -161,10 +161,10 @@ Link : https://ionicframework.com/docs/theming/color-generator **/
    */
 
   .ios body {
-    --ion-background-color: #000000;
-    --ion-background-color-rgb: 0,0,0;
+    --ion-background-color: #222222;
+    --ion-background-color-rgb: 18,18,18;
 
-    --ion-text-color: #000000;
+    --ion-text-color: #e7e7e7;
     --ion-text-color-rgb: 255,255,255;
 
     --ion-color-step-50: #0d0d0d;
@@ -205,13 +205,9 @@ Link : https://ionicframework.com/docs/theming/color-generator **/
    */
 
   .md body {
-    --ion-background-color: #121212;
+        --ion-background-color: #222222;
     --ion-background-color-rgb: 18,18,18;
-
-    --ion-text-color: #000000;
-    --ion-text-color-rgb: 255,255,255;
-
-    --ion-border-color: #222222;
+    --ion-text-color: #e7e7e7;
 
     --ion-color-step-50: #1e1e1e;
     --ion-color-step-100: #2a2a2a;

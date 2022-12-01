@@ -126,6 +126,7 @@ h2{
     padding-bottom: 15px;
 }
 ion-label{
+    margin: 0px;
     margin-right: 10px;
     margin-left: 10px;
 }

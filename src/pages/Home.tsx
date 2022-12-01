@@ -6,7 +6,6 @@ import MazoComponent from "../components/MazoComponent";
 import { getAuth, setPersistence } from "firebase/auth";
 import firebaseapp, { auth } from '../firebase/firebaseconfig';
 import { arrayUnion, doc, getFirestore, getDoc, updateDoc, query, collection, where, getDocs, Query, onSnapshot } from "firebase/firestore";
-import MazoClass from "../class/MazoClass";
 import React, { useContext, useEffect, useState } from "react";
 import {AuthContext} from "../context/AuthContext";
 import IMazos from "../interfaces/Imazo";
