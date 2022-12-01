@@ -111,7 +111,7 @@ const Home: React.FC =  () => {
 
             <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton className='nuevo-icon' title="Agregar">
-            <IonIcon icon={add}></IonIcon>
+            <IonIcon className='agregar-icon' icon={add}></IonIcon>
           </IonFabButton>
           <IonFabList side="top">
             <IonFabButton className="popover-button-card"  routerLink="/ncard" title='Agregar carta'>
