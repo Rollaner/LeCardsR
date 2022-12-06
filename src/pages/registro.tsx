@@ -14,6 +14,7 @@ const Registro: React.FC = () => {
     const [contraseña2, setContraseña2] = useState<string>();
     const [showAlert, setShowAlert] = useState(false);
     const [mensajeError,setMensajeError] = useState<string>();
+    const [msjeHeader,setMsjeHeader] = useState<string>();
 
     const db = getFirestore(firebaseapp);
 
@@ -33,6 +34,7 @@ const Registro: React.FC = () => {
                         racha: 0
                     } )
                     setMensajeError("Usuario creado con exito!");
+                    setMsjeHeader("Exito!")
                     setShowAlert(true);
                 }
             })
@@ -59,6 +61,7 @@ const Registro: React.FC = () => {
                             break;
                         }
                     }
+                    setMsjeHeader("Error!")
                     setShowAlert(true);
             });
         }
@@ -107,7 +110,7 @@ const Registro: React.FC = () => {
     <IonAlert
         isOpen={showAlert}
         onDidDismiss={() => setShowAlert(false)}
-        header="ERROR"
+        header={msjeHeader}
         message={mensajeError}
         buttons={['OK']}
       />        
