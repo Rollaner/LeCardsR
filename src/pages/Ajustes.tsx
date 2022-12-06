@@ -74,8 +74,8 @@ const Ajustes: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent color="medium">
-      <IonItem>  
-            <IonLabel color={'primary'}>Activar tiempo limite</IonLabel>
+      <IonItem color={"light"}>  
+            <IonLabel >Activar tiempo limite</IonLabel>
             <IonToggle color={"primary"} checked={activarTiempo} onClick={(e) => activarTiempoLimite(e)} slot="end"></IonToggle> 
             {/* el setActivarTiempo a !AT es lo que cambia el valor, deberiamos moverlo a otra funcion para permitir cambios al DOM */}
       </IonItem>

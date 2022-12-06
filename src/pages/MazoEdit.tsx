@@ -78,8 +78,8 @@ const MazoEdit: React.FC = () => {
             </IonHeader>
       
       <IonContent fullscreen color={'medium'}>
-      <IonItem className='mazoSelectContainer'>
-                <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione mazo para editar" interfaceOptions={options}  onIonChange={(e) => handleSelect(e.detail.value)}>
+      <IonItem color={"light"}>
+                <IonSelect cancelText='Cancelar' interface='action-sheet' color='dark' placeholder="Seleccione mazo para editar" interfaceOptions={options}  onIonChange={(e) => handleSelect(e.detail.value)}>
                 { mazos.map((mazo: IMazos,i: number) => (
                     <IonSelectOption key={i} value={MId[i]} class="mazo-option">{mazo.nombre}</IonSelectOption>
                     ))}
@@ -88,7 +88,7 @@ const MazoEdit: React.FC = () => {
         {selected && <>
         <form  onSubmit={handleSubmit}>
             <IonList lines="full">
-        <IonItem color="medium">
+        <IonItem color={"light"}>
         <IonInput  className='añadirItem' required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Nombre" placeholder="Nombre" 
         onIonChange={(e) => setNombre(e.target.value as string)}> </IonInput>
         </IonItem>

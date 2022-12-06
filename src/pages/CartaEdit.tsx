@@ -109,14 +109,14 @@ const CartaEdit: React.FC = () => {
             </IonHeader>
       
       <IonContent fullscreen color={'medium'}>
-        <IonItem className='mazoSelectContainer'>
+        <IonItem color={"light"} className='mazoSelectContainer'>
             <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione mazo para comenzar" interfaceOptions={options}  onIonChange={(e) => handleMazoSelect(e.detail.value)}>
             { mazos.map((mazo: IMazos,i: number) => (
                 <IonSelectOption key={i} value={MId[i]} class="mazo-option">{mazo.nombre}</IonSelectOption>
                 ))}
             </IonSelect>
         </IonItem>
-        <IonItem className='mazoSelectContainer'>
+        <IonItem color={"light"} className='mazoSelectContainer'>
             <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione una carta" interfaceOptions={options}  onIonChange={(e) => handleCardSelect(e.detail.value)}>
             { cartas.map((carta: ICartas,i: number) => (
                 <IonSelectOption key={i} value={CId[i]} class="mazo-option">{carta.pregunta}</IonSelectOption>

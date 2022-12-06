@@ -8,13 +8,15 @@
     padding-left: 5%;
     margin-left: 1%;
     margin-right: 1%;
+
     width: 280px;
   }
 
   ion-select {
-    --placeholder-color:white;
+    --placeholder-color:#000000;
     --background-color:#e97223;
-  }
+    --placeholder-opacity: 0.8
+  } 
   
   .sc-ion-action-sheet-md-h {
     --button-background-hover: #e97223;
@@ -37,9 +39,5 @@
     --min-width: 90%;
   }
 
-  .mazoSelectContainer{
-      color: #000000;
-      width: auto;
-  }
 
 
