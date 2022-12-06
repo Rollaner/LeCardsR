@@ -34,7 +34,7 @@ const Carta: React.FC = () => {
     //cargar mazos
     useEffect(() => {  (async () => { 
         if(user){ 
-        const qpref = query(collection(db,"ColeccionMazos",user!.uid,));
+        const qpref = query(collection(db,"ColeccionMazos",user!.uid,"Cartas"));
         const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid));
         getDocs(qpref).then((prefSnapshot)=> {
             const prefs:any = prefSnapshot.docs.map( (doc:any) => ({...doc.data()})) //depurar
@@ -50,6 +50,8 @@ const Carta: React.FC = () => {
             }
           });
         });
+        // const q = query(collection(db,"ColeccionMazos"),where("uuid","==",user.uid))
+        // getDocs(q).then()
         }else{console.log("Sin suario valido");}
       })();
     }, [user]);
