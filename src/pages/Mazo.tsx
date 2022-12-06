@@ -1,11 +1,12 @@
 import { IonBackButton,IonList,IonInput, IonButton,IonButtons ,IonContent,IonHeader,IonPage,IonTitle,IonToolbar, useIonViewDidLeave, IonItem} from '@ionic/react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import '../../src/theme/Mazo.css';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import firebaseapp from '../firebase/firebaseconfig';
 import { addDoc, arrayUnion, collection, getFirestore, updateDoc } from 'firebase/firestore';
 import { userInfo } from 'os';
 import { useHistory } from 'react-router';
+import { AuthContext } from '../context/AuthContext';
 
 
 
@@ -17,15 +18,16 @@ const Mazo: React.FC = () => {
         DefinirNombre("Placeholder")
     });
 
-    const auth = getAuth();
+    // const auth = getAuth();
     let uid:String;
-    
-    onAuthStateChanged(auth, (user) => {
-        if(user){
-            uid = user.uid;
-            // console.log(uid);
-        }
-    });
+    const user = useContext(AuthContext)
+
+    // onAuthStateChanged(auth, (user) => {
+    //     if(user){
+    //         uid = user.uid;
+    //         // console.log(uid);
+    //     }
+    // });
 
     const db = getFirestore(firebaseapp);    
     
@@ -36,7 +38,7 @@ const Mazo: React.FC = () => {
         // alert(`El nombre del mazo es: ${nombre}  el usuario es : ${uid}`);
         const mazoRef = await addDoc(collection(db,"ColeccionMazos"),{
             nombre: nombre,
-            uuid: uid,
+            uuid: user!.uid,
             maximocartas: 25 //MAXIMO HARDCODEADO INICIAL
         })
         event.target.reset();
