@@ -10,6 +10,8 @@ const Login: React.FC = () => {
     const [contraseña, setContraseña] = useState<string>();
     const [showAlert, setShowAlert] = useState(false);
     const [mensajeError,setMensajeError] = useState<string>();
+    const [msjeHeader,setMsjeHeader] = useState<string>();
+
 
     const history = useHistory();
     function handleSubmit(e:any){
@@ -43,6 +45,7 @@ const Login: React.FC = () => {
                     break;
                 }
             }
+            setMsjeHeader("Error!")
             setShowAlert(true)
             limpiarCampos();
         });
@@ -80,7 +83,7 @@ const Login: React.FC = () => {
     <IonAlert
         isOpen={showAlert}
         onDidDismiss={() => setShowAlert(false)}
-        header="ERROR"
+        header={msjeHeader}
         message={mensajeError}
         buttons={['OK']}
       />    
