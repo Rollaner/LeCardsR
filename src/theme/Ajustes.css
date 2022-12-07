@@ -10,9 +10,23 @@ ion-label{
 
 }
 
+.PrefSpan{
+    position: relative;
+    margin-top: 2%;
+    margin-bottom: 1%;
+}
+
 .limCartas{
     position: absolute;
-    display: inline;
+    display: flex;
+    right: 0px;
+    left: 0px;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: stretch;
 }
 
 .tiempoLimRadio{
@@ -26,12 +40,22 @@ ion-label{
 }
 .RadioTL {
     display: flex;
-    
-    column-gap : 15px;
+    column-gap: 15px;
+    flex-basis: content;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    align-content: stretch;
     justify-content: space-evenly;
-    flex-basis:content;
 }
 
+.LimCartasForm {
+    display: inline;
+    width: 95%;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
 
 @media (max-width: 1000px) {
     
@@ -110,10 +134,17 @@ ion-back-button{
     --border-radius: 15px;
 }
 ion-radio-group{
+    width: 40%;
     margin: 0px;
     padding-left: 45px;
     padding-right: 5px;
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
+    right: 20px;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-start;
 }
 ion-radio{
   --color: rgb(0, 0, 0);

@@ -74,41 +74,21 @@ const Ajustes: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent color="medium">
+      <div className='PrefSpan'>
       <IonItem color={"light"}>  
             <IonLabel >Activar tiempo limite</IonLabel>
             <IonToggle color={"primary"} checked={activarTiempo} onClick={(e) => activarTiempoLimite(e)} slot="end"></IonToggle> 
             {/* el setActivarTiempo a !AT es lo que cambia el valor, deberiamos moverlo a otra funcion para permitir cambios al DOM */}
       </IonItem>
-      <span className='limCartas'>
-        <IonLabel>Limite diario de cartas nuevas</IonLabel>
-      <form onClick={()=>handleSubmit}>
-      <IonList inset={true} lines="full">
-        <IonListHeader>
-          <h2>Limite cartas</h2>
-        </IonListHeader>
-        <span  className='RadioTL'>
-        <IonRadioGroup onIonChange={({ detail }) => handleCardRadio(detail.value)}> {/*reparar hook para tiempo limite*/}
-        <span>
-            <IonLabel  >20</IonLabel>
-            <IonRadio  name="20c" value="20" slot="start" onIonFocus={() => setLimCartas("20")}></IonRadio>
-            <IonLabel  >25</IonLabel>
-            <IonRadio name="25c" value="25" slot="secondary" onIonFocus={() => setLimCartas("25")}></IonRadio>
-            <IonLabel  >30</IonLabel>
-            <IonRadio name="30c" value="30" slot="end" onIonFocus={() => setLimCartas("30")}></IonRadio>
-        </span>  
-        </IonRadioGroup>
-        </span>
-      </IonList>
-      </form>
-      </span>
+      </div>
       { activarTiempo &&
-      <div className='tiempoLimRadio'>  
+      <div className='PrefSpan'  style={{right: "20px"}}>  
       <form id="form2" onClick={()=>handleSubmit}>
       <IonList inset={true} lines="full">
-        <IonListHeader>
+        <div  className='RadioTL'>
+        <IonListHeader color={"light"}>
           <h2>Tiempo limite</h2>
         </IonListHeader>
-        <div  className='RadioTL'>
         <IonRadioGroup onIonChange={({ detail }) => handleTimeRadio(detail.value)}> {/*reparar hook para tiempo limite*/}
         <span>
             <IonLabel  >20 segundos</IonLabel>
@@ -123,7 +103,28 @@ const Ajustes: React.FC = () => {
       </IonList>
       </form>
       </div>
-      }
+      }  
+      <div className='limCartas'>
+      <form className='LimCartasForm' onClick={()=>handleSubmit}>
+      <IonList inset={true} lines="full">
+      <span  className='RadioTL'>
+        <IonListHeader color="light">
+          <h2>Limite diario de cartas nuevas</h2>
+        </IonListHeader>
+        <IonRadioGroup onIonChange={({ detail }) => handleCardRadio(detail.value)}> {/*reparar hook para tiempo limite*/}
+        <span>
+            <IonLabel  >20</IonLabel>
+            <IonRadio  name="20c" value="20" slot="start" onIonFocus={() => setLimCartas("20")}></IonRadio>
+            <IonLabel  >25</IonLabel>
+            <IonRadio name="25c" value="25" slot="secondary" onIonFocus={() => setLimCartas("25")}></IonRadio>
+            <IonLabel  >30</IonLabel>
+            <IonRadio name="30c" value="30" slot="end" onIonFocus={() => setLimCartas("30")}></IonRadio>
+        </span>  
+        </IonRadioGroup>
+        </span>
+      </IonList>
+      </form>
+      </div>
       </IonContent>
         </IonPage>
     );

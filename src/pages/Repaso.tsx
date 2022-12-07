@@ -65,12 +65,13 @@ interface prefLoader {
   limTiempo:string
 }
 
+let cartaActual = 0; //index de la carta actual
+
 const Repaso: React.FC = () => {
     const { id } = useParams<mazoLoad>()
     let repasoActual:repasoList //head del struct
     const [datosCartas, setDatosCartas] = useState([])
     const [cartaRespondida, setRespondida] = useState(false); 
-    const [cartaActual, setCartaActual] = useState(0); //index de la carta actual
     const [activarTiempo, setActivarTiempo] = useState(false);
     const [tiempoLimite, setTiempoLimite] = useState(20);
     const user = useContext(AuthContext)
@@ -126,24 +127,23 @@ const Repaso: React.FC = () => {
 
     function mostrarRespuesta(){
       setRespondida(true)
-      console.log(datosCartas)
       setPropsState({
-        pregunta: datosCartas[cartaActual]['pregunta'],
-        respuesta: datosCartas[cartaActual]['respuesta'],
+        pregunta: propsState.pregunta,
+        respuesta: propsState.respuesta,
         respondida: true
       })
     }
 
-    async function resetarCarta(aux:number){ //esta tambien tiene que mover el array y cargar los datos de la nueva carta a los props
+    const resetarCarta = async (aux:number) => { //esta tambien tiene que mover el array y cargar los datos de la nueva carta a los props
       setRespondida(false)
-      let i = cartaActual
-      while (i < datosCartas.length){
+  
+      if (cartaActual < datosCartas.length){
       let espaciado = datosCartas[cartaActual]['cooldown']*aux
       var updater = doc(getFirestore(firebaseapp),"ColeccionMazos",id,"Cartas",datosCartas[cartaActual]["id"]);
         await updateDoc(updater, {
           cooldown: espaciado
         });  
-      setCartaActual( i++)
+      ++cartaActual
       setCurrentTime(Date.now) //conseguir tiempo actual
       //comparar t actual con t de creacion de la carta + cooldown
       if(datosCartas[cartaActual]['cooldown'] + datosCartas[cartaActual]['tiempo'] > currentTime){
@@ -151,8 +151,6 @@ const Repaso: React.FC = () => {
           pregunta: "",
           respuesta: "",
           respondida: false})
-          setTerminado(true)
-          break
       }
       setPropsState({
         pregunta: datosCartas[cartaActual]['pregunta'],
@@ -164,7 +162,7 @@ const Repaso: React.FC = () => {
       console.log('tiempo limite activo');
       }
       }
-      if(i == datosCartas.length){
+      if(cartaActual == datosCartas.length){
         setPropsState({
         pregunta: "",
         respuesta: "",
