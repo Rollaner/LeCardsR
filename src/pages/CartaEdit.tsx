@@ -65,9 +65,7 @@ const CartaEdit: React.FC = () => {
                       indexer = [...indexer, change.doc.id]
                       data = [...data,change.doc.data()]
                       setCartas(data)
-                      console.log(cartas)
                       setCId(indexer)
-                      console.log(indexer)
                     }
                 }
               });

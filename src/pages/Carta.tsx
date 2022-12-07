@@ -39,14 +39,17 @@ const Carta: React.FC = () => {
         getDocs(qpref).then((prefSnapshot)=> {
             const prefs:any = prefSnapshot.docs.map( (doc:any) => ({...doc.data()})) //depurar
             setMaximoDiario(parseInt(prefs['limCartas']))
+            setMaximoDiario(25)
           })
         const unsub = onSnapshot(q, (querySnapshot) => {
           querySnapshot.docChanges().forEach((change) => {
             if (change.type === "added") {
-              indexer = [...indexer, change.doc.id]
-              data = [...data,change.doc.data()]
-              setMazos(data)
-              setId(indexer)
+                if(indexer.indexOf(change.doc.id) === -1){
+                    indexer = [...indexer, change.doc.id]
+                    data = [...data,change.doc.data()]
+                    setMazos(data)
+                    setId(indexer)
+                }
             }
           });
         });
@@ -117,7 +120,7 @@ const Carta: React.FC = () => {
         <IonInput className='añadirItem'  required={true} spellCheck={true} clearInput={true} autocapitalize="sentences" type="text" name="Respuesta" placeholder="Respuesta" 
         onIonChange={(e) => setRespuesta(e.target.value as string)}> </IonInput>
         </IonItem>
-            <IonItem className='mazoSelectContainer'>
+            <IonItem color="light" className='mazoSelectContainer'>
                 {!showMazoInput && <IonSelect cancelText='Cancelar' interface='action-sheet' placeholder="Seleccione mazo" interfaceOptions={options}  onIonChange={(e) => cambiarMazo(e.detail.value)}>
                 { mazos.map((mazo: IMazos,i: number) => (
                     <IonSelectOption key={i} value={MId[i]} class="mazo-option">{mazo.nombre}</IonSelectOption>
